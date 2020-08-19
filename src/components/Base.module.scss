@@ -1,0 +1,30 @@
+.box {
+    display:flex !important;
+    justify-content: center;
+    font-family : "Montserrat";
+}
+
+.speak {
+    padding-top:2rem;
+    color:var(--primary) !important;
+}
+
+
+.logo {
+    width:3rem;
+    stroke:var(--secondary);
+    fill:none;
+    stroke-width: 50;
+    &.spin {
+        animation: rotate 8s infinite linear;
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359.999deg);
+    }
+}
