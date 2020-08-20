@@ -3,7 +3,7 @@ import styles from './Editor.module.scss';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { add_key, remove_key, clear_note } from '../../../lib/redux/actions/noteAction';
-import { update_note } from '../../../lib/redux/actions/notebookAction';
+import { update_note, remove_note } from '../../../lib/redux/actions/notebookAction';
 
 export default function Editor() {
     const note = useSelector(state => state.note);
@@ -38,6 +38,11 @@ export default function Editor() {
 
     }
 
+    function deleteNote(e) {
+        e.preventDefault();
+        dispatch(remove_note(note.title)).then(() => dispatch(clear_note()));
+    }
+
     return <>
         {
             note.state === "edit" ?
@@ -68,8 +73,13 @@ export default function Editor() {
                         <label className="label">Note</label>
                         <textarea id="notes-input" className="textarea" defaultValue={note.notes} />
                     </div>
-                    <div className="field control">
+                    <div className="field is-grouped control">
                         <button className="button is-primary" onClick={saveNote} >Save changes</button>
+                        {
+                            note.title !== "" ?
+                            <button className="button" onClick={deleteNote} >Delete</button>
+                            : ""
+                        }
                     </div>
                     <div onClick={() => {dispatch(clear_note())}} className={styles.close}>Close</div>
                 </div>

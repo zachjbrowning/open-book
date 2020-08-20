@@ -1,3 +1,6 @@
+var filehandler = require('./filehandler');
+
+
 const express = require('express');
 const path = require('path'); 
 const bodyParser = require('body-parser');
@@ -13,14 +16,15 @@ app.use(express.static(DIST_DIR));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
 
-app.get('/bump/:id', (req, res) => {
-    res.send({msg : "Connected to backend!!"});
-    console.log("ID:", req.params.id);
+app.get('/load', (req, res) => {
+    let data = filehandler.load();
+    res.send(data);
 })
 
-app.post('/push', (req, res) => {
-    res.send({msg : "Connected to backend!!"});
-    console.log( "Data:", req.body)
+app.post('/commit', (req, res) => {
+    filehandler.commit(req.body);
+    
+    res.send({msg : "Success"});
 })
 
 //Routing, default sends all urls 
