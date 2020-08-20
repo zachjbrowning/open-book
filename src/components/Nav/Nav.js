@@ -2,8 +2,12 @@ import React from 'react';
 import styles from './Nav.module.scss';
 import { useDispatch } from 'react-redux';
 
+import { edit_note } from '../../../lib/redux/actions/noteAction';
+import { save_notebook, load_notebook } from '../../../lib/redux/actions/notebookAction';
 
 export default function Nav() {
+    const dispatch = useDispatch();
+    
     return (
         <div className={styles.navBox}>
             <div className={`container ${styles.navFrame}`}>
@@ -12,17 +16,17 @@ export default function Nav() {
                 </div>
                 <ul className={styles.buttons}>
                     <li>
-                        <a>
+                        <a onClick={() => dispatch(edit_note())}>
                             Create
                         </a>
                     </li>
                     <li>
-                        <a>
+                        <a onClick={() => dispatch(load_notebook())}>
                             Load
                         </a>
                     </li>
                     <li>
-                        <a>
+                        <a onClick={() => dispatch(save_notebook())}>
                             Commit
                         </a>
                     </li>
