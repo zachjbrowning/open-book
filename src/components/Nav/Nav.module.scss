@@ -14,3 +14,17 @@
         align-items:center;
     }
 }
+
+.buttons {
+    list-style-type: none;
+    margin-left:auto;
+    overflow: hidden;
+    & li {
+        float:left;
+        & a {
+            display:block;
+            padding:1rem;
+            text-align:center;
+        }
+    }
+}

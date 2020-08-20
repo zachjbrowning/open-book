@@ -2,37 +2,57 @@ import React from 'react';
 import styles from './Editor.module.scss';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { add_key, remove_key, clear_note } from '../../../lib/redux/actions/noteAction';
+import { update_note } from '../../../lib/redux/actions/notebookAction';
 
 export default function Editor() {
     const note = useSelector(state => state.note);
-    
+    const notebook = useSelector(state => state.notebook);
+    const dispatch = useDispatch();
+
     function addKey(e) {
         e.preventDefault();
+        dispatch(add_key(e.target.elements.keyword.value));
+        e.target.elements.keyword.value = "";
     }
 
     function removeKey(keyword) {
-        
+        dispatch(remove_key(keyword));
     }
 
-    function saveNote(e) {
-        e.preventDefault();
+    function saveNote() {
+        let newTitle = document.getElementById("title-input").value;
+        let newNotes = document.getElementById("notes-input").value;
+        if (newTitle === "" || newNotes === "") {
+            //THROW AN ERROR, FIELDS EMPTY
+            return;
+        }
+        if (newTitle !== note.title && newTitle in notebook) {
+            //THROW AN ERROR, TITLE ALREADY USED
+            return;
+        }
+        //HERE WE SHOULD REALLY CHECK TO SEE IF NAME ISN"T ALREADY BEING USED
+
+
+        dispatch(update_note(newTitle, newNotes)).then(() => dispatch(clear_note()));
+
     }
 
     return <>
         {
             note.state === "edit" ?
             <div className={`columns is-centered ${styles.editorBox}`}>
-                <form onSubmit={saveNote} className={`column is-10 ${styles.card}`}>
+                <div className={`column is-10 ${styles.card}`}>
                     <div className="field control">
                         <label className="label">Title</label>
-                        <input defaultValue={note.title} className="input" />
+                        <input id="title-input" defaultValue={note.title} className="input" />
                     </div>
                     <div className="control">
                         <label className="label">Keywords</label>
-                        <div className="field is-grouped">
-                            <input className="input" placeholder="keyword..." />
-                            <button onClick={addKey} className="button">Add</button>
-                        </div>
+                        <form onSubmit={addKey} className="field is-grouped">
+                            <input className="input" placeholder="keyword..." name="keyword"/>
+                            <button type="submit" className="button">Add</button>
+                        </form>
                         <div className="field tags">
                             {
                                 note.keywords.map((keyword, idx) => (
@@ -46,12 +66,13 @@ export default function Editor() {
                     </div>
                     <div className="field control">
                         <label className="label">Note</label>
-                        <textarea className="textarea" defaultValue={note.notes} />
+                        <textarea id="notes-input" className="textarea" defaultValue={note.notes} />
                     </div>
                     <div className="field control">
-                        <button className="button is-primary" type="submit">Save changes</button>
+                        <button className="button is-primary" onClick={saveNote} >Save changes</button>
                     </div>
-                </form>
+                    <div onClick={() => {dispatch(clear_note())}} className={styles.close}>Close</div>
+                </div>
             </div>
 
             : ""

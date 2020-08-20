@@ -13,18 +13,19 @@ export default function Viewer() {
             note.state === "view" ? 
             <div className={`columns is-centered ${styles.viewerBox}`}>
                 <div className={`column is-10 ${styles.card}`}>
-                    <div onClick={() => dispatch(edit_note())} className={styles.close}>Close</div>
                     <h5 className="title is-5">{note.title}</h5>
                     <br/>
                     <div className="tags">
                         {note.keywords.map((keyword, idx) => (
                             <span key={idx} className="tag is-dark">{keyword}</span>
-                        ))}
+                            ))}
                     </div>
                     <br/>
                     <div className={styles.text}>
                         {note.notes}
                     </div>
+                    <div onClick={() => dispatch(edit_note())} className={styles.edit}>Edit</div>
+                    <div onClick={() => dispatch(clear_note())} className={styles.close}>Close</div>
 
                 </div>
             </div>
