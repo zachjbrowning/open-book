@@ -9,9 +9,19 @@
     & .card {
         background-color:white;
         border-radius : 5px;
+        position: relative;
         & .text {
             color:black;
             white-space: pre-wrap;
         }
     }
+}
+
+
+.close {
+    color:black;
+    position:absolute;
+    top:1rem;
+    right:1rem;
+    cursor: pointer;
 }
