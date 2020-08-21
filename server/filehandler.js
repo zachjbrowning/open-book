@@ -7,6 +7,6 @@ exports.commit = function(notes) {
 }
 
 exports.load = function() {
-    var data = require('./notebook.json');
-    return data;
+    let rawdata = fs.readFileSync('./server/notebook.json');
+    return JSON.parse(rawdata);
 }
