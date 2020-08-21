@@ -22,7 +22,7 @@ export default function Editor() {
 
     function saveNote() {
         let newTitle = document.getElementById("title-input").value.toLowerCase();
-        let newNotes = document.getElementById("notes-input").value.toLowerCase();
+        let newNotes = document.getElementById("notes-input").value;
         if (newTitle === "" || newNotes === "") {
             //THROW AN ERROR, FIELDS EMPTY
             return;
