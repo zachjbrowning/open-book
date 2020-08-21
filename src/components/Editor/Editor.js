@@ -12,7 +12,7 @@ export default function Editor() {
 
     function addKey(e) {
         e.preventDefault();
-        dispatch(add_key(e.target.elements.keyword.value));
+        dispatch(add_key(e.target.elements.keyword.value.toLowerCase()));
         e.target.elements.keyword.value = "";
     }
 
@@ -21,8 +21,8 @@ export default function Editor() {
     }
 
     function saveNote() {
-        let newTitle = document.getElementById("title-input").value;
-        let newNotes = document.getElementById("notes-input").value;
+        let newTitle = document.getElementById("title-input").value.toLowerCase();
+        let newNotes = document.getElementById("notes-input").value.toLowerCase();
         if (newTitle === "" || newNotes === "") {
             //THROW AN ERROR, FIELDS EMPTY
             return;
