@@ -6,4 +6,8 @@ import "../styles/styles.scss"
 import { Provider } from "react-redux";
 import store from "../lib/redux/store";
 
-ReactDom.render(<Provider store={store}><Wireframe/></Provider>, document.getElementById('root'))
+ReactDom.render(<BrowserRouter>
+        <Provider store={store}>
+            <Wireframe/>
+        </Provider>
+    </BrowserRouter>, document.getElementById('root'))

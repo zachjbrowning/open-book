@@ -5,20 +5,22 @@ $font-primary-serif: "Montserrat";
 $font-primary-sans-serif: "Roboto Mono";
 
 // ==== Colors ==== //
-$primary: #EA1744;
+$primary: #E28413;
 $secondary: #E28413;
-$tertiary: #3d3e44;
+$tertiary: #EA1744aa;
 $background: #4B4D58;
 $dark: #D3D0CB;
 $text: white;
 
 // CSS vars - don't know why but you can't use sass variables with them
 :root {
-  --primary: #EA1744;
-  --primary-fade: #EA1744aa;
+  --primary: #E28413;
+  --background-accent: #EDEDED;
+  --background:#ffffff;
+  --title:#7e7e7e;
+  --primary-fade: #E2841388;
   --secondary: #E28413;
   --tertiary: #3d3e44;
-  --background: #4B4D58;
   --dark: #D3D0CB;
 }
 
@@ -40,7 +42,9 @@ $family-secondary: $font-primary-sans-serif;
 @import "../node_modules/bulma/sass/elements/button.sass";
 
 // Other stuff
-
-main {
-  margin-top:3rem;
+html, body, main, #root {
+  width:100%;
+  height:100%;
+  background-color:var(--background);
 }
+

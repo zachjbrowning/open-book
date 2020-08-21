@@ -1,23 +1,22 @@
 import React from 'react';
 import styles from './Wireframe.module.scss';
+import {Route, Switch} from 'react-router-dom';
 
-import Nav from '../Nav/Nav';
-import Search from '../Search/Search';
-import Viewer from '../Viewer/Viewer';
-import Editor from '../Editor/Editor';
+
+import Landing from '../Landing/Landing';
+import Exam from '../old/Exam';
+import Subframe from './Subframe';
+
+
 
 export default function Wireframe() {
     return <>
-
-        <main>
-            <div className={`container ${styles.canvas}`}>
-                <Search />
-                <Viewer />
-                <Editor />
-            </div>
-        </main>
-
-        <Nav />
+        <Switch>
+            <Route exact path="/" component={Landing} />
+            <Route path="/exam-mode" component={Exam} />
+            <Route component={Subframe} />
+        </Switch>
+        
 
     </>
     
