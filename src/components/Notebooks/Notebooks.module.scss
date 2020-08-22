@@ -12,5 +12,26 @@
 }
 
 .collections {
-    
+    margin-top:max(2rem,10vh);
+    color:var(--text);
+    & > h3 {
+        font-size:1.75rem;
+        font-weight:700;
+    }
+    & > div {
+        display:flex;
+        justify-content: center;
+        width:100%;
+        flex-wrap:wrap;
+        .notebook {
+            flex-basis:100%;
+            flex-grow:1;
+            padding:0.4rem;
+            display:flex;
+            justify-content: space-between;
+            &.colored {
+                background-color:var(--background-accent);
+            }
+        }
+    }
 }

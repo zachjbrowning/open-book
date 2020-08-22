@@ -1,10 +1,31 @@
 import React, { useState } from 'react';
 import styles from './Nav.module.scss';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
+import { toggle_night } from '../../../lib/redux/actions/nightAction';
 
 export default function Nav() {
-    const [isDark, setdark] = useState(false);
+    const isDark = useSelector(state => state.night);
+    const dispatch = useDispatch();
+
+    const toggle = e => {
+        e.checked = !isDark; 
+        dispatch(toggle_night());
+        const root = document.documentElement;
+        if (!isDark) {
+            root.style.setProperty("--background", "black");
+            root.style.setProperty("--text", "#DDDDDD");
+
+        } else {
+            root.style.setProperty("--background", "white");
+            root.style.setProperty("--background-accent", "#EDEDED");
+            root.style.setProperty("--text", "#222222");
+
+
+        }
+    }
+
     return <div className={styles.navBox}>
             <div className={`container ${styles.navFrame}`}>
                 <div className={styles.title}>
@@ -45,7 +66,7 @@ export default function Nav() {
                     
                     
                     <label className={styles.switch}>
-                        <input type="checkbox" checked={isDark} onChange={() => (true)} onClick={e => {e.checked = !isDark; setdark(!isDark)}}/>
+                        <input type="checkbox" checked={isDark} onChange={() => (true)} onClick={toggle}/>
                         <span className={styles.slider} />
                     </label>
 
