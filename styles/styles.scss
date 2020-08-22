@@ -18,6 +18,7 @@ $text: white;
   --background-accent: #EDEDED;
   --background:#ffffff;
   --title:#7e7e7e;
+  --text:#222222;
   --primary-fade: #E2841388;
   --secondary: #E28413;
   --tertiary: #3d3e44;
@@ -41,10 +42,13 @@ $family-secondary: $font-primary-sans-serif;
 @import "../node_modules/bulma/sass/layout/_all";
 @import "../node_modules/bulma/sass/elements/button.sass";
 
-// Other stuff
-html, body, main, #root {
+body, main, #root {
   width:100%;
   height:100%;
   background-color:var(--background);
 }
 
+html {
+  background-color:var(--background);
+
+}

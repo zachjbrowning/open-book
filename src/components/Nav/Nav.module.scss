@@ -1,30 +1,99 @@
 .navBox {
-    position:absolute;
+    position:fixed;
     top:0;
     width:100%;
     
     padding:0.5rem;
-    background-color:var(--tertiary);
 
     display:flex;
     justify-content: center;
     align-items: center;
+    background-color:var(--background-accent);
     & .navFrame {
         display:flex;
         align-items:center;
+        .title {
+            margin-right:auto;
+            .brand {
+                color:var(--title);
+                font-weight:800;
+                font-size:1.5rem;
+                &:hover {
+                    color:var(--text);
+                }
+            }
+        }
+        .auth {
+            cursor: pointer;
+            height:1.5rem;
+            & > svg {
+                height:100%;
+                fill:#00000000;
+                stroke:var(--title);
+                stroke-width:500;
+                stroke-miterlimit: 100;
+            }
+            &:hover > svg {
+                stroke:var(--text);
+            }
+        }
+        .toggle {
+            padding-right:1rem;
+            display:flex;
+            align-items: center;
+            & > svg {
+                width: 1.5rem;
+                height:1.5rem;
+                margin-left:0.1rem;
+                margin-right:0.1rem;
+                fill:var(--title);
+            }
+        }
     }
 }
 
-.buttons {
-    list-style-type: none;
-    margin-left:auto;
-    overflow: hidden;
-    & li {
-        float:left;
-        & a {
-            display:block;
-            padding:1rem;
-            text-align:center;
+
+ /* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 1.5rem;
+    height: 1rem;
+    & input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+        &:checked + .slider {
+            background-color: var(--primary);
+        }
+        &:checked + .slider:before {
+            -webkit-transform: translateX(0.5rem);
+            -ms-transform: translateX(0.5rem);
+            transform: translateX(0.5rem);
+        }
+    }
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: var(--title);
+        -webkit-transition: .4s;
+        transition: .4s;
+        border-radius:1rem;
+        &:before {
+            position: absolute;
+            content: "";
+            height: 0.7rem;
+            width: 0.7rem;
+            left: .15rem;
+            bottom: .15rem;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius:50%;
         }
     }
 }
