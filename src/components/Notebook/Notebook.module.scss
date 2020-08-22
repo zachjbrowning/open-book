@@ -1,0 +1,45 @@
+.header {
+    display:flex;
+    justify-content: space-between;
+    color:var(--text);
+    padding-top:max(1rem,5vh);
+    .title > h1 {
+        font-size:1.75rem;
+        font-weight:700;
+    }
+}
+
+.search {
+    padding-top:2rem;
+    & input {
+        min-width:35vw;
+    }
+}
+
+.notes {
+    margin-top:max(1rem,5vh);
+    color:var(--text);
+    padding:1rem;
+    .add {
+        display:flex;
+        width:100%;
+        justify-content: center;
+        font-weight:700;
+        span {
+            color:var(--primary);
+        }
+        cursor: pointer;
+    }
+    .note {
+        display:flex;
+        width:100%;
+        justify-content: space-between;
+        padding:0.4rem;
+        &.colored {
+            background-color:var(--background-accent);
+        }
+        span {
+            margin-left:1rem;
+        }
+    }
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Notebooks.module.scss';
+import { Link } from 'react-router-dom';
 
 export default function Notebooks() {
     const data = [
@@ -18,7 +19,10 @@ export default function Notebooks() {
                 {
                     data.map((val, idx) => (
                         <div key={idx} className={`${idx % 2 === 1 ? styles.colored : ""} ${styles.notebook} `}>
-                            <p>{val}</p>
+                            <Link to={`/notebooks/${val.toLowerCase().replace(" ", "-")}`}>
+                                {val}
+                            </Link>
+                            
                             <p>delete</p>
                         </div>
                     ))

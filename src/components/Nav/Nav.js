@@ -14,11 +14,12 @@ export default function Nav() {
         dispatch(toggle_night());
         const root = document.documentElement;
         if (!isDark) {
-            root.style.setProperty("--background", "black");
+            root.style.setProperty("--background", "#333333");
+            root.style.setProperty("--background-accent", "#222222");
             root.style.setProperty("--text", "#DDDDDD");
 
         } else {
-            root.style.setProperty("--background", "white");
+            root.style.setProperty("--background", "#FFFFFF");
             root.style.setProperty("--background-accent", "#EDEDED");
             root.style.setProperty("--text", "#222222");
 
