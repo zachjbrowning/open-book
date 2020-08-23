@@ -4,7 +4,7 @@ import {Route, Switch} from 'react-router-dom';
 
 
 import Landing from '../Landing/Landing';
-import Exam from '../old/Exam';
+import Exam from '../Exam/Exam';
 import Subframe from './Subframe';
 
 

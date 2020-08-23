@@ -1,42 +1,167 @@
-.canvas {
-    min-height : calc(100vh - 3rem);
-    flex-direction:column;
+.constrict {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
     display:flex;
-    align-items: center;
-    justify-content: center;
-    
+    flex-flow:column;
+    height:100%;
+    @media (min-width: 768px) {
+        width: 700px;
+    }
+    @media (min-width: 992px) {
+        width: 900px;
+    }
+    @media (min-width: 1200px) {
+        width: 1000px;
+    }
+
 }
 
 .navBox {
-    position:absolute;
+    position:fixed;
     top:0;
     width:100%;
     
-    padding:0.5rem;
-    background-color:var(--tertiary);
+    padding:0.375rem;
 
     display:flex;
     justify-content: center;
     align-items: center;
+    background-color:var(--background-accent);
     & .navFrame {
         display:flex;
         align-items:center;
-    }
-}
-
-.buttons {
-    list-style-type: none;
-    margin-left:auto;
-    overflow: hidden;
-    & li {
-        float:left;
-        & a {
-            display:block;
-            padding:1rem;
-            text-align:center;
-            &:hover {
-                color:var(--primary-fade);
+        .search {
+            margin-right:auto;
+            
+        }
+        .close {
+            cursor: pointer;
+            height:1.5rem;
+            & > svg {
+                height:100%;
+                fill:var(--title);
+            }
+            &:hover > svg {
+                fill:var(--text);
+            }
+        }
+        .toggle {
+            padding-right:1rem;
+            display:flex;
+            align-items: center;
+            & > svg {
+                width: 1.5rem;
+                height:1.5rem;
+                margin-left:0.1rem;
+                margin-right:0.1rem;
+                fill:var(--title);
             }
         }
     }
+}
+
+ /* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 1.5rem;
+    height: 1rem;
+    & input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+        &:checked + .slider {
+            background-color: var(--primary);
+        }
+        &:checked + .slider:before {
+            -webkit-transform: translateX(0.5rem);
+            -ms-transform: translateX(0.5rem);
+            transform: translateX(0.5rem);
+        }
+    }
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: var(--title);
+        -webkit-transition: .4s;
+        transition: .4s;
+        border-radius:1rem;
+        &:before {
+            position: absolute;
+            content: "";
+            height: 0.7rem;
+            width: 0.7rem;
+            left: .15rem;
+            bottom: .15rem;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius:50%;
+        }
+    }
+}
+
+.resultsBox {
+    position:relative;
+    z-index:500;
+    width:100%;
+    height:0px;
+    & .resultsHover {
+        position: absolute;
+        top:0;
+        width:100%;
+        background-color:white;
+        color:var(--tertiary);
+        border-radius:3px;
+        overflow: hidden;
+        & .result {
+            padding:0.2rem;
+            &:hover {
+                cursor: pointer;
+                background-color:grey;
+            }
+        }
+    }
+}
+
+
+.popup {
+    margin-top:3rem;
+    color:var(--text);
+    background-color:var(--background-accent);
+    padding:1rem;
+    padding-top:2.5rem;
+    border-radius: 1rem 1rem 0 0;
+    flex:1 1 auto;
+    position:relative;
+    & > svg {
+        cursor: pointer;
+        position:absolute;
+        width:1.5rem;
+        height:1.5rem;
+        top:.75rem;
+        fill:var(--title);
+        &:hover {
+            fill:var(--text);
+        }
+    }
+    .close {
+        right:.75rem;
+    }
+    .edit {
+        right: 3rem;
+    }
+    .text {
+        white-space: pre-wrap;
+    }
+    .name, label {
+        color:var(--text);
+    }
+    
 }

@@ -8,10 +8,11 @@ export default function Notebooks() {
         "data structurse",
         "Yeet"
     ]
+    const name = "Zachary"
     
     return <>
         <div className={styles.welcome}>
-            <h1>Welcome, <span>zachary</span>!!</h1>        
+            <h1>Welcome, <span>{name}</span>!!</h1>        
         </div>
         <div className={styles.collections}>
             <h3>Your collections</h3>
