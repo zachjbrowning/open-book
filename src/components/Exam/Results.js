@@ -3,7 +3,7 @@ import styles from './Exam.module.scss';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { clear_query } from '../../../lib/redux/actions/queryAction';
-import { load_note } from '../../../lib/redux/actions/noteAction';
+import { set_note } from '../../../lib/redux/actions/activeAction';
 
 export default function Results(props) {
     const results = useSelector(state => state.query.results)
@@ -13,7 +13,7 @@ export default function Results(props) {
     function select(title) {
         dispatch(clear_query());
         document.getElementById(props.inputId).value = "";
-        dispatch(load_note(title));
+        dispatch(set_note(title));
     }
     
     return <div className={styles.resultsBox}>

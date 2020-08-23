@@ -1,29 +1,36 @@
 import React from 'react';
 import styles from './Notebook.module.scss';
 import { Link, useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { set_note, unset_note, edit_note } from '../../../lib/redux/actions/activeAction';
 
 export default function Notebook() {
+    const dispatch = useDispatch();
     const { book } = useParams();
-    const notes = [
-        "hello",
-        "there",
-        "General",
-        "kenobi",
-        "ehh"
-    ]
-    const isOne = false;
-    const isEdit = true;
-    const note = {
-        title : 'howdy',
-        keywords : ['waspopping'],
-        notes : "howdy doody my \ndoodd"
+    const collection = useSelector(state => state.collection);
+    let notebook = false;
+    for (var name of Object.keys(collection)) {
+        if (name.toLowerCase() === book.replace("-", " ")) {
+            notebook = name;
+            break;
+        }
     }
+    
+    if (!notebook) throw new Error("URL DIDN'tMATCH THE NOTEBOOK");
+    
+    const active = useSelector(state => state.active);
+    
+    
+    const notes = collection[notebook];
+
+
+    const note = false
     function search(e) {
         e.preventDefault();
     }
 
 
-    console.log(book.replace("-", " "));
 
 
     return <>
@@ -36,7 +43,7 @@ export default function Notebook() {
             </Link>
         </div>
     { 
-        isOne ? <>
+        !active.note && !active.edit ? <>
 
         <form onSubmit={search} className={styles.search}>
             <div className="field is-grouped">
@@ -49,15 +56,15 @@ export default function Notebook() {
             </div>
         </form>  
         <div className={styles.notes}>
-            <div className={styles.add}>
+            <div onClick={() => dispatch(edit_note(false))} className={styles.add}>
                 <span>+</span>&nbsp;Add
             </div>
             {
-                notes.map((val, idx) => (
+                Object.keys(notes).map((val, idx) => (
                     <div key={idx} className={`${idx % 2 === 0 ? styles.colored : ""} ${styles.note}`}>
-                        <Link>
+                        <a onClick={() => dispatch(set_note(val))}>
                             {val}
-                        </Link>
+                        </a>
                         <span>
                             delete
                         </span>
@@ -70,7 +77,7 @@ export default function Notebook() {
 
         <div className={styles.popup}>
             {
-                isEdit ? <> 
+                active.edit ? <> 
                     <div className="field control">
                         <label className="label">Title</label>
                         <input id="title-input" defaultValue={note.title} className="input" />
@@ -119,7 +126,7 @@ export default function Notebook() {
                     <div className={styles.text}>
                         {note.notes}
                     </div>
-                    <svg className={styles.edit} viewBox="0 0 8192 8192">
+                    <svg onClick={() => dispatch(edit_note(active.note))} className={styles.edit} viewBox="0 0 8192 8192">
                         <path d="M1696.9,7173.1c-180.1,0-360.3-3.2-540.3,1.4c-80.8,2.1-106.5-26.9-105.8-107.7c3.2-364.4,2.7-728.8,0.2-1093.2
                             c-0.4-63.7,22.2-107.9,65.3-151.4c1200-1211.8,2399.5-2424.2,3597.2-3638.4c62.8-63.7,99.6-57.3,158.9,3.4
                             c370.4,379.4,742.7,757,1118.7,1130.6c65.3,64.9,53.6,98.3-4.4,156.8C4789.1,4682.5,3593,5892.1,2398,7102.7
@@ -130,7 +137,7 @@ export default function Notebook() {
                     </svg>
                 </>
             }
-            <svg className={styles.close} viewBox="0 0 8192 8192">
+            <svg onClick={() => dispatch(unset_note())} className={styles.close} viewBox="0 0 8192 8192">
                 <path d="M3497.2,4084.8c-30-32.3-61.1-68.2-94.6-101.7c-686.9-687-1372.1-1375.7-2063.3-2058.3c-96.1-94.9-119.1-152.4-4.2-247.5
                     c122.8-101.7,234.8-218.4,340.1-338.6c87-99.2,144.8-99.4,240.3-2.8c667.9,675.7,1341.3,1346.1,2014.3,2016.7
                     c188.6,187.9,139.5,189.4,324,5.6c673-670.7,1346.8-1340.6,2014-2017c101.4-102.8,160.3-103,251.9,2.6

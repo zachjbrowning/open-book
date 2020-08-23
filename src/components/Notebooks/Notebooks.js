@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 
 
 import { load_collection } from '../../../lib/redux/actions/collectionAction';
+import { set_notebook } from '../../../lib/redux/actions/activeAction';
 
 export default function Notebooks() {
     const dispatch = useDispatch();
@@ -13,7 +14,7 @@ export default function Notebooks() {
     useEffect(() => {
         dispatch(load_collection());
     }, [])
-    
+
     const data = [
         "COMP3511",
         "data structurse",
@@ -31,7 +32,7 @@ export default function Notebooks() {
                 {
                     data.map((val, idx) => (
                         <div key={idx} className={`${idx % 2 === 1 ? styles.colored : ""} ${styles.notebook} `}>
-                            <Link to={`/notebooks/${val.toLowerCase().replace(" ", "-")}`}>
+                            <Link onClick={() => dispatch(set_notebook(val))} to={`/notebooks/${val.toLowerCase().replace(" ", "-")}`}>
                                 {val}
                             </Link>
                             
