@@ -8,8 +8,35 @@
 }
 
 .lower {
-    margin-top:4rem !important;
+    padding-top:3.5rem !important;
 }
 .card {
-    margin:1rem;
+    margin-bottom:0 !important;
+    height:100%;
+    & > div {
+        height:100%;
+        margin:1rem;
+        margin-bottom:0;
+        padding-bottom:0 !important;
+    }
+}
+
+.constrict {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    display:flex;
+    flex-flow:column;
+    height:100%;
+    @media (min-width: 768px) {
+        width: 700px;
+    }
+    @media (min-width: 992px) {
+        width: 900px;
+    }
+    @media (min-width: 1200px) {
+        width: 1000px;
+    }
+
 }

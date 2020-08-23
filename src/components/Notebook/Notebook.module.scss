@@ -34,6 +34,7 @@
         display:flex;
         width:100%;
         justify-content: space-between;
+        align-items: center;
         padding:0.4rem;
         &.colored {
             background-color:var(--background-accent);
@@ -42,4 +43,39 @@
             margin-left:1rem;
         }
     }
+}
+
+.popup {
+    margin-top:3rem;
+    color:var(--text);
+    background-color:var(--background-accent);
+    padding:1rem;
+    padding-top:2.5rem;
+    border-radius: 1rem 1rem 0 0;
+    flex:1 1 auto;
+    position:relative;
+    & > svg {
+        cursor: pointer;
+        position:absolute;
+        width:1.5rem;
+        height:1.5rem;
+        top:.75rem;
+        fill:var(--title);
+        &:hover {
+            fill:var(--text);
+        }
+    }
+    .close {
+        right:.75rem;
+    }
+    .edit {
+        right: 3rem;
+    }
+    .text {
+        white-space: pre-wrap;
+    }
+    .name, label {
+        color:var(--text);
+    }
+    
 }
