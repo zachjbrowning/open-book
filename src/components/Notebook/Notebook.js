@@ -25,7 +25,7 @@ export default function Notebook() {
     const notes = collection[notebook];
 
 
-    const note = false
+    const note = collection[active.notebook][active.note];
     function search(e) {
         e.preventDefault();
     }

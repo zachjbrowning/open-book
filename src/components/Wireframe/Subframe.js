@@ -1,23 +1,26 @@
-import React from 'react';
+import React, { Suspense, lazy} from 'react';
 import styles from './Wireframe.module.scss';
 import { Switch, Route } from 'react-router-dom';
 
-import Nav from '../Nav/Nav';
-import Notebooks from '../Notebooks/Notebooks';
-import Notebook from '../Notebook/Notebook';
+const Nav = lazy(() => import('../Nav/Nav'));
+const Notebooks = lazy(() => import('../Notebooks/Notebooks'));
+const Notebook = lazy(() => import('../Notebook/Notebook'));
+
 
 export default function Subframe() {
     return <>
         
         <main className={`${styles.constrict}`}>
-
-                    <Switch>
-                        <Route exact path="/notebooks" component={Notebooks} />
-                        <Route path="/notebooks/:book" component={Notebook} />
-                    </Switch>
-
+            <Suspense fallback={<></>}>
+                <Switch>
+                    <Route exact path="/notebooks" component={Notebooks} />
+                    <Route path="/notebooks/:book" component={Notebook} />
+                </Switch>
+            </Suspense>
         </main>
-        <Nav />
+        <Suspense fallback={<></>}>
+            <Nav />
+        </Suspense>
 
     </>
 }

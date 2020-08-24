@@ -1,25 +1,17 @@
 import React, { useEffect } from 'react';
 import styles from './Notebooks.module.scss';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 
-import { load_collection } from '../../../lib/redux/actions/collectionAction';
 import { set_notebook } from '../../../lib/redux/actions/activeAction';
 
 export default function Notebooks() {
     const dispatch = useDispatch();
+    const collection = useSelector(state => state.collection);
 
 
-    useEffect(() => {
-        dispatch(load_collection());
-    }, [])
-
-    const data = [
-        "COMP3511",
-        "data structurse",
-        "Yeet"
-    ]
+    
     const name = "Zachary"
     
     return <>
@@ -30,7 +22,7 @@ export default function Notebooks() {
             <h3>Your collections</h3>
             <div >
                 {
-                    data.map((val, idx) => (
+                    Object.keys(collection).map((val, idx) => (
                         <div key={idx} className={`${idx % 2 === 1 ? styles.colored : ""} ${styles.notebook} `}>
                             <Link onClick={() => dispatch(set_notebook(val))} to={`/notebooks/${val.toLowerCase().replace(" ", "-")}`}>
                                 {val}
