@@ -35,6 +35,8 @@ export default function Exam() {
         }
     }
     
+
+
     return <>
         <main className={styles.constrict}>
             {
@@ -80,9 +82,11 @@ export default function Exam() {
                     </svg>
                 </div>
                 <div className={styles.close}>
-                    <svg viewBox="0 0 8192 8192">
-                        {close}
-                    </svg>
+                    <Link to={`/notebooks/${active.notebook.toLowerCase().replace(" ", "-")}`}>
+                        <svg viewBox="0 0 8192 8192">
+                            {close}
+                        </svg>
+                    </Link>
                 </div>
                 
             </div>

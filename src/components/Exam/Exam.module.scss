@@ -1,6 +1,7 @@
 .constrict {
     padding-right: 15px;
     padding-left: 15px;
+    padding-top:3.25rem;
     margin-right: auto;
     margin-left: auto;
     display:flex;
@@ -41,11 +42,11 @@
         .close {
             cursor: pointer;
             height:1.5rem;
-            & > svg {
+            &  svg {
                 height:100%;
                 fill:var(--title);
             }
-            &:hover > svg {
+            &:hover  svg {
                 fill:var(--text);
             }
         }
