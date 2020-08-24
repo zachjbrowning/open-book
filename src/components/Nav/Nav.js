@@ -38,7 +38,7 @@ export default function Nav() {
                 <div className={styles.toggle}>
                 
                     <svg x="0px" y="0px" viewBox="0 0 8192 8192">
-                        {night}
+                        {day}
                     </svg>
                     
                     
@@ -49,7 +49,7 @@ export default function Nav() {
 
 
                     <svg x="0px" y="0px" viewBox="0 0 8192 8192">
-                        {day}
+                        {night}
                     </svg>
                 </div>
                 <div className={styles.auth}>

@@ -11,6 +11,7 @@ export default function Results(props) {
 
 
     function select(title) {
+        props.clearFunc(false);
         dispatch(clear_query());
         document.getElementById(props.inputId).value = "";
         dispatch(set_note(title));

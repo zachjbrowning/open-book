@@ -170,3 +170,20 @@
     }
     
 }
+
+.searched {
+    color:var(--text);
+    padding-top:2rem;
+    h5 {
+        font-size:1.5rem;
+        font-weight:700;
+    }
+    .found {
+        padding:0.5rem;
+        cursor: pointer;
+        &.colored {
+            background-color:var(--background-accent);
+
+        }
+    }
+}

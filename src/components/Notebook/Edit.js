@@ -42,13 +42,11 @@ export default function Edit() {
                 dispatch(unset_note());
             });
         } else {
-            dispatch(edit_note(active.note, active.notebook, document.getElementById("title-input").value), {
+            dispatch(edit_note(active.note, active.notebook, document.getElementById("title-input").value, {
                 keywords : collection[active.notebook][active.note].keywords,
                 notes : document.getElementById("notes-input").value,
-            })
-            .then(() => {
-                dispatch(unset_note());
-            });
+            }))
+            .then(dispatch(unset_note()));
         }
     }
 
