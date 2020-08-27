@@ -6,19 +6,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toggle_night } from '../../../lib/redux/actions/nightAction';
 import { update_query } from '../../../lib/redux/actions/queryAction';
 import { unset_note, set_note } from '../../../lib/redux/actions/activeAction';
-import { close, day, night } from '../Icons/Icon';
-import Results from './Results';
+import { close, day, night } from '../Utils/Icon';
+import Results from '../Utils/Results';
 
 export default function Exam() {
     const dispatch = useDispatch();
     const isDark = useSelector(state => state.night);
     const collection = useSelector(state => state.collection);
     const active = useSelector(state => state.active);
-    const eg = [
-        {title : "Allo", words : "there guvna"},
-        {title : "Allo", words : "there guvna"},
-        {title : "Allo", words : "there guvna"},
-    ]
     const [searched, setSearched] = useState(false);
     
 
@@ -49,16 +44,19 @@ export default function Exam() {
     const search = e => {
         e.preventDefault();
         const query = e.target.elements.examInput.value;
+        dispatch(update_query(""));
         let temp = []
         let dict = collection[active.notebook];
         for (var n of Object.keys(dict)) {
-            let index = dict[n].notes.toLowerCase().indexOf(query);
+            let index = dict[n].notes.toLowerCase().indexOf(query.toLowerCase());
             if (index !== -1) {
                 temp.push({
                     title : n,
-                    words : `...${dict[n].notes.slice(index - 50 >= 0 ? index - 50 : 0, index + query.length + 50)}...`
+                    words : `...${dict[n].notes.slice(index - 50 < 0 ? 0 : index - 50, index)}${dict[n].notes.slice(index, index + query.length).toUpperCase()}${dict[n].notes.slice(index + query.length, index + query.length + 50)}...`
                 })
             }
+
+            
         }
         e.target.elements.examInput.value = "";
         dispatch(unset_note());
@@ -72,8 +70,8 @@ export default function Exam() {
                     <h5>{searched.length} matches found</h5>
                     {
                         searched.map((val, idx) => <div onClick={() => select(val.title)} key={idx} className={`${styles.found} ${idx % 2 === 0 ? styles.colored : ""}`}>
-                            <p>{val.title}</p>
-                            <p>{val.words}</p>
+                            <p className={styles.head}>{val.title.toUpperCase()}</p>
+                            <p className={styles.word}>{val.words}</p>
                         </div>)
                     }
                 </div> : <> {

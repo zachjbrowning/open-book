@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { toggle_night } from '../../../lib/redux/actions/nightAction';
-import { day, night, auth } from '../Icons/Icon';
+import { day, night, auth } from '../Utils/Icon';
 
 export default function Nav() {
     const isDark = useSelector(state => state.night);

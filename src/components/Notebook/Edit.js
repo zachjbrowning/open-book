@@ -3,8 +3,8 @@ import styles from './Notebook.module.scss';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { unset_note, new_cat, del_cat } from '../../../lib/redux/actions/activeAction';
-import { close } from '../Icons/Icon';
-import { new_note, edit_note, new_cat_collection, del_cat_collection } from '../../../lib/redux/actions/collectionAction';
+import { close } from '../Utils/Icon';
+import { new_note, edit_note, new_cat_collection, del_cat_collection, del_note } from '../../../lib/redux/actions/collectionAction';
 
 export default function Edit() {
     const dispatch = useDispatch();
@@ -50,6 +50,11 @@ export default function Edit() {
         }
     }
 
+    const deleteNote = () => {
+        dispatch(del_note(active.notebook, active.note))
+        .then(dispatch(unset_note()));
+    }
+
     return <>
 
         <div className="field control">
@@ -85,9 +90,13 @@ export default function Edit() {
             <div onClick={saveNote} className="control">
                 <button className="button is-primary" >Save</button>
             </div>
-            <div className="control">
-                <button className="button is-primary is-light" >Delete</button>
-            </div>
+            {
+                active.edit && active.note ?
+                <div className="control">
+                    <button onClick={deleteNote} className="button is-primary is-light" >Delete</button>
+                </div>
+                : ""
+            }
         </div>
         <svg onClick={() => dispatch(unset_note())} className={styles.close} viewBox="0 0 8192 8192">
             {close}

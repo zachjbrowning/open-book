@@ -3,7 +3,7 @@ import styles from './Notebook.module.scss';
 import { useDispatch } from 'react-redux';
 
 import { unset_note, edit_note } from '../../../lib/redux/actions/activeAction';
-import { edit, close } from '../Icons/Icon';
+import { edit, close } from '../Utils/Icon';
 
 export default function View(props) {
     const dispatch = useDispatch();

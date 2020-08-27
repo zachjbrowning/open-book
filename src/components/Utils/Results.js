@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Exam.module.scss';
+import styles from './Utils.module.scss';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { clear_query } from '../../../lib/redux/actions/queryAction';
@@ -18,7 +18,7 @@ export default function Results(props) {
     }
     
     return <div className={styles.resultsBox}>
-        <div className={styles.resultsHover}>
+        <div className={`${results.length > 0 ? styles.border : ""} ${styles.resultsHover}`}>
             {
                 results.map((title, idx) => <div onClick={() => select(title)} key={idx} className={styles.result}>
                     {title}

@@ -11,8 +11,11 @@
 
 .search {
     padding-top:2rem;
-    & input {
-        min-width:35vw;
+    .wider {
+        min-width:40%;
+        input {
+            width:100%;
+        }
     }
 }
 
@@ -25,9 +28,13 @@
         width:100%;
         justify-content: center;
         font-weight:700;
+        color:var(--primary);
         span {
-            color:var(--primary);
+            color:var(--title);
         }
+        &:hover span {
+            color:var(--text);
+        } 
         cursor: pointer;
     }
     .note {
@@ -41,6 +48,11 @@
         }
         span {
             margin-left:1rem;
+            cursor: pointer;
+            color:var(--title);
+            &:hover {
+                color:var(--text);
+            }
         }
     }
 }
@@ -78,4 +90,44 @@
         color:var(--text);
     }
     
+}
+
+.searched {
+    color:var(--text);
+    padding-top:2rem;
+    position: relative;
+    h5 {
+        font-size:1.5rem;
+        font-weight:700;
+        padding-bottom : 1rem;
+    }
+    svg {
+        cursor: pointer;
+        position:absolute;
+        width:1.5rem;
+        height:1.5rem;
+        top:2.5rem;
+        right:1rem;
+        fill:var(--title);
+        &:hover {
+            fill:var(--text);
+        }
+    }
+    .found {
+        padding:0.5rem;
+        cursor: pointer;
+        &:hover {
+            border : 1px solid var(--primary);
+        }
+        .head {
+            font-weight:700;
+        }
+        .word {
+            font-family : "Roboto Mono";
+        }
+        &.colored {
+            background-color:var(--background-accent);
+
+        }
+    }
 }

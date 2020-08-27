@@ -37,6 +37,8 @@
             margin-right:auto;
             input {
                 min-width:calc(60vw - 4rem);
+                background-color:var(--background);
+                color:var(--text);
             }
         }
         .close {
@@ -181,6 +183,15 @@
     .found {
         padding:0.5rem;
         cursor: pointer;
+        &:hover {
+            border : 1px solid var(--primary);
+        }
+        .head {
+            font-weight:700;
+        }
+        .word {
+            font-family : "Roboto Mono";
+        }
         &.colored {
             background-color:var(--background-accent);
 

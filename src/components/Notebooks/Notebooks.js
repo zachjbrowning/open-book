@@ -5,12 +5,19 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 import { set_notebook } from '../../../lib/redux/actions/activeAction';
+import { new_coll, del_coll } from '../../../lib/redux/actions/collectionAction';
 
 export default function Notebooks() {
     const dispatch = useDispatch();
     const collection = useSelector(state => state.collection);
 
+    const delNotebook = (title) => {
+        dispatch(del_coll(title));
+    }
 
+    const addNotebook = () => {
+        dispatch(new_coll("WABOOM"));
+    }
     
     const name = "Zachary"
     
@@ -28,10 +35,13 @@ export default function Notebooks() {
                                 {val}
                             </Link>
                             
-                            <p>delete</p>
+                            <p onClick={() => delNotebook(val)}>delete</p>
                         </div>
                     ))
                 }
+                <div onClick={addNotebook} className={styles.add}>
+                    +<span>&nbsp;Add</span>
+                </div>
             </div>
             
         </div>

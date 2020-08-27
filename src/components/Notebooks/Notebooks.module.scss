@@ -32,6 +32,27 @@
             &.colored {
                 background-color:var(--background-accent);
             }
+            p {
+                cursor: pointer;
+                color : var(--title);
+                &:hover {
+                    color : var(--text);
+                }
+            }
+        }
+        .add {
+            display:flex;
+            width:100%;
+            justify-content: center;
+            font-weight:700;
+            color:var(--primary);
+            span {
+                color:var(--title);
+            }
+            &:hover span {
+                color:var(--text);
+            } 
+            cursor: pointer;
         }
     }
 }
