@@ -1,27 +1,90 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Landing.module.scss';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+
 
 export default function Landing() {
+    const [state, setState] = useState("home");
+    const history = useHistory();
+    const login = e => {
+        e.preventDefault();
+        history.push("/notebooks");
+    }
+
+    const register = e => {
+        e.preventDefault();
+        history.push("/notebooks");
+    }
+
+
     return <>
         <div className={styles.canvas} />
         <main>
             <div className={`container ${styles.mainFrame}`}>
-                {/* LANDING PAGE */}
+
                 <div className={styles.boxLocator}>
-                    <div className={styles.box}>
-                        <h1 className={`title is-1 ${styles.hello}`}>Openbook</h1>
-                    </div>
-                    <div className={`field is-grouped`}>
-                        <div className="control">
-                            <Link to={"/notebooks"}>
-                                <button className="button is-primary">Login</button>
-                            </Link>
+                    
+                    {
+                        state === "home" ? <>
+                        <div className={styles.box}>
+                            <h1 className={`title is-1 ${styles.hello}`}>Openbook</h1>
                         </div>
-                        <div className="control">
-                            <button className="button">Sign up</button>
+                        <div className={`field is-grouped`}>
+                            <div className="control">
+                                <button onClick={() => setState("login")} className="button is-primary">Login</button>
+                            </div>
+                            <div className="control">
+                                <button onClick={() => setState("register")} className="button">Sign up</button>
+                            </div>
                         </div>
-                    </div>
+                        </> : ""
+                    }
+                    {
+                        state === "login" ? <form onSubmit={login} className="form">
+                            <div className="field">
+                                <div className="control">
+                                    <input className="input" placeholder="username" name="username" />
+                                </div>
+                            </div>
+                            <div className="field">
+                                <div className="control">
+                                    <input type="password" className="input" placeholder="pwd" name="pwd" />
+                                </div>
+                            </div>
+                            <div className="field is-grouped">
+                                <div className="control">
+                                    <button type="submit" className="button is-primary">Login</button>
+                                </div>
+                                <div className="control">
+                                    <button onClick={e => {e.preventDefault(); setState("home")}} className="button">Cancel</button>
+                                </div>
+                            </div>
+                            <p>Don't have an account? <a onClick={() => setState("register")}>Register</a></p>
+                        </form> : ""
+                    }
+                    {
+                        state === "register" ? <form onSubmit={register} className="form">
+                        <div className="field">
+                            <div className="control">
+                                <input className="input" placeholder="username" name="username" />
+                            </div>
+                        </div>
+                        <div className="field">
+                            <div className="control">
+                                <input type="password" className="input" placeholder="pwd" name="pwd" />
+                            </div>
+                        </div>
+                        <div className="field is-grouped">
+                            <div className="control">
+                                <button type="submit" className="button is-primary">Register</button>
+                            </div>
+                            <div className="control">
+                                <button onClick={e => {e.preventDefault(); setState("home")}} className="button">Cancel</button>
+                            </div>
+                        </div>
+                        <p>Already have an account? <a onClick={() => setState("login")}>login</a></p>
+                    </form> : "" 
+                    }
                 </div>
 
 
