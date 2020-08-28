@@ -6,7 +6,7 @@ import { unset_note, new_cat, del_cat } from '../../../lib/redux/actions/activeA
 import { close } from '../Utils/Icon';
 import { new_note, edit_note, new_cat_collection, del_cat_collection, del_note } from '../../../lib/redux/actions/collectionAction';
 
-export default function Edit() {
+export default function Edit(props  ) {
     const dispatch = useDispatch();
     const active = useSelector(state => state.active);
     const collection = useSelector(state => state.collection);
@@ -50,10 +50,7 @@ export default function Edit() {
         }
     }
 
-    const deleteNote = () => {
-        dispatch(del_note(active.notebook, active.note))
-        .then(dispatch(unset_note()));
-    }
+    
 
     return <>
 
@@ -93,7 +90,7 @@ export default function Edit() {
             {
                 active.edit && active.note ?
                 <div className="control">
-                    <button onClick={deleteNote} className="button is-primary is-light" >Delete</button>
+                    <button className="button is-primary is-light" >Delete</button>
                 </div>
                 : ""
             }

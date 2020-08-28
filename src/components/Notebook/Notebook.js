@@ -10,6 +10,7 @@ import View from './View';
 import Edit from './Edit';
 import Results from '../Utils/Results';
 import { close } from '../Utils/Icon';
+import Modal from '../Utils/Modal';
 
 export default function Notebook() {
     const dispatch = useDispatch();
@@ -36,7 +37,7 @@ export default function Notebook() {
 
 
     function deleteNote(title) {
-        dispatch(del_note(notebook, title));
+        dispatch(del_note(active.notebook, title));
     }
 
     const select = title => {

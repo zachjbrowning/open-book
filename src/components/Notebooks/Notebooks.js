@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import styles from './Notebooks.module.scss';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,17 +6,22 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { set_notebook } from '../../../lib/redux/actions/activeAction';
 import { new_coll, del_coll } from '../../../lib/redux/actions/collectionAction';
+import Modal from '../Utils/Modal';
 
 export default function Notebooks() {
     const dispatch = useDispatch();
     const collection = useSelector(state => state.collection);
 
+
+
     const delNotebook = (title) => {
         dispatch(del_coll(title));
     }
 
+    
+
     const addNotebook = () => {
-        dispatch(new_coll("WABOOM"));
+        dispatch(new_coll("YEET"));
     }
     
     const name = "Zachary"
@@ -30,7 +35,7 @@ export default function Notebooks() {
             <div >
                 {
                     Object.keys(collection).map((val, idx) => (
-                        <div key={idx} className={`${idx % 2 === 1 ? styles.colored : ""} ${styles.notebook} `}>
+                        <div key={idx} className={`${idx % 2 === 0 ? styles.colored : ""} ${styles.notebook} `}>
                             <Link onClick={() => dispatch(set_notebook(val))} to={`/notebooks/${val.toLowerCase().replace(" ", "-")}`}>
                                 {val}
                             </Link>

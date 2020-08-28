@@ -48,3 +48,9 @@ html, body, main, #root {
   background-color:var(--background);
 }
 
+a {
+  color : var(--primary);
+  &:hover {
+    color : var(--text);
+  }
+}

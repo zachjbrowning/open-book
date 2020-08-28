@@ -24,3 +24,11 @@
         border : 1px solid var(--background-accent);
     }
 }
+
+.box {
+    color:var(--text);
+    background-color:var(--background);
+    padding:2rem;
+    border-radius:2rem;
+    z-index:600;
+}
