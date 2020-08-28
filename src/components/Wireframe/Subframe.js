@@ -2,6 +2,7 @@ import React, { Suspense, lazy} from 'react';
 import styles from './Wireframe.module.scss';
 import { Switch, Route } from 'react-router-dom';
 
+import Modal from '../Modal/Modal';
 const Nav = lazy(() => import('../Nav/Nav'));
 const Notebooks = lazy(() => import('../Notebooks/Notebooks'));
 const Notebook = lazy(() => import('../Notebook/Notebook'));
@@ -21,6 +22,6 @@ export default function Subframe() {
         <Suspense fallback={<></>}>
             <Nav />
         </Suspense>
-
+        <Modal />
     </>
 }

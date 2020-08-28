@@ -6,7 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { set_notebook } from '../../../lib/redux/actions/activeAction';
 import { new_coll, del_coll } from '../../../lib/redux/actions/collectionAction';
-import Modal from '../Utils/Modal';
+import { set_modal, set_warning } from '../../../lib/redux/actions/modalAction';
+
 
 export default function Notebooks() {
     const dispatch = useDispatch();
@@ -15,13 +16,41 @@ export default function Notebooks() {
 
 
     const delNotebook = (title) => {
-        dispatch(del_coll(title));
+        dispatch(set_modal(
+            "Are you sure?", 
+            "Are you sure you want to delete this collection? This action cannot be reverted.",
+            () => {
+                dispatch(del_coll(title));
+                return true;
+            }, 
+            false))
     }
 
     
 
     const addNotebook = () => {
-        dispatch(new_coll("YEET"));
+        dispatch(set_modal(
+            "Create collection",
+            <>
+                <div className="field">
+                    <div className="control">
+                        <input className="input" id="new-col-title" placeholder="title..." />
+                    </div>
+                </div>
+            </>,
+            () => {
+                let input = document.getElementById("new-col-title");
+                if (input.value in collection) {
+                    dispatch(set_warning("That collection already exists. Please use a new name."));
+                    input.value = ""
+                    return false;
+                } else {
+                    dispatch(new_coll(input.value));
+                    return true;
+                }
+            },
+            false
+        ));
     }
     
     const name = "Zachary"

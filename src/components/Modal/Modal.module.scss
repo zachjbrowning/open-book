@@ -1,0 +1,14 @@
+.box {
+    color:var(--text);
+    background-color:var(--background);
+    padding:2rem;
+    border-radius:2rem;
+    z-index:600;
+    .title {
+        font-weight:800;
+        font-size:1.5rem;
+    }
+    .lower {
+        padding-top:1rem;
+    }
+}

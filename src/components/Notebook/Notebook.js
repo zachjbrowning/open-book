@@ -6,11 +6,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { set_note, new_note, unset_note } from '../../../lib/redux/actions/activeAction';
 import { del_note } from '../../../lib/redux/actions/collectionAction';
 import { update_query } from '../../../lib/redux/actions/queryAction';
+import { set_modal } from '../../../lib/redux/actions/modalAction';
 import View from './View';
 import Edit from './Edit';
 import Results from '../Utils/Results';
 import { close } from '../Utils/Icon';
-import Modal from '../Utils/Modal';
 
 export default function Notebook() {
     const dispatch = useDispatch();
@@ -37,7 +37,15 @@ export default function Notebook() {
 
 
     function deleteNote(title) {
-        dispatch(del_note(active.notebook, title));
+        dispatch(set_modal(
+            "Are you sure?", 
+            "Are you sure you want to delete this note? This action cannot be reverted.",
+            () => {
+                dispatch(del_note(active.notebook, title));
+                return true;
+            }, 
+            false))
+        
     }
 
     const select = title => {
