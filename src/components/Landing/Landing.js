@@ -1,19 +1,29 @@
 import React, { useState } from 'react';
 import styles from './Landing.module.scss';
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
+import { login, register } from '../../../lib/redux/actions/authAction';
 
 export default function Landing() {
+    const dispatch = useDispatch();
     const [state, setState] = useState("home");
     const history = useHistory();
-    const login = e => {
+    const do_login = e => {
         e.preventDefault();
-        history.push("/notebooks");
+        dispatch(login(e.target.elements.email.value, e.target.elements.pwd.value))
+        .then(() => {
+            history.push("/notebooks");
+        })
+
     }
 
-    const register = e => {
+    const do_register = e => {
         e.preventDefault();
-        history.push("/notebooks");
+        dispatch(register(e.target.elements.email.value, e.target.elements.pwd.value, e.target.elements.first.value, e.target.elements.last.value))
+        .then(() => {
+            history.push("/notebooks");
+        })
     }
 
 
@@ -40,10 +50,20 @@ export default function Landing() {
                         </> : ""
                     }
                     {
-                        state === "login" ? <form onSubmit={login} className="form">
+                        state === "login" ? <form onSubmit={do_login} className="form">
                             <div className="field">
                                 <div className="control">
-                                    <input className="input" placeholder="username" name="username" />
+                                    <input className="input" placeholder="first name" name="first" />
+                                </div>
+                            </div>
+                            <div className="field">
+                                <div className="control">
+                                    <input className="input" placeholder="last name" name="last" />
+                                </div>
+                            </div>
+                            <div className="field">
+                                <div className="control">
+                                    <input className="input" placeholder="email" name="email" />
                                 </div>
                             </div>
                             <div className="field">
@@ -63,7 +83,7 @@ export default function Landing() {
                         </form> : ""
                     }
                     {
-                        state === "register" ? <form onSubmit={register} className="form">
+                        state === "register" ? <form onSubmit={do_register} className="form">
                         <div className="field">
                             <div className="control">
                                 <input className="input" placeholder="username" name="username" />
