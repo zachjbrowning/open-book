@@ -20,8 +20,12 @@ export default function Landing() {
     const do_login = e => {
         e.preventDefault();
         dispatch(login(e.target.elements.email.value, e.target.elements.pwd.value))
-        .then(() => {
-            history.push("/notebooks");
+        .then(res => {
+            if ('error' in res) {
+                setAlert(res.error);
+            } else {
+                history.push("/notebooks");
+            }
         })
 
     }
@@ -29,8 +33,12 @@ export default function Landing() {
     const do_register = e => {
         e.preventDefault();
         dispatch(register(e.target.elements.email.value, e.target.elements.pwd.value, e.target.elements.first.value, e.target.elements.last.value))
-        .then(() => {
-            history.push("/notebooks");
+        .then(res=> {
+            if ('error' in res) {
+                setAlert(res.error);
+            } else {
+                history.push('/notebooks');
+            }
         })
     }
 
@@ -58,12 +66,12 @@ export default function Landing() {
     const log = state === "login" ? <form onSubmit={do_login} className="form">
         <div className="field">
             <div className="control">
-                <input className="input" placeholder="email" name="email" />
+                <input required={true} className="input" placeholder="email" name="email" />
             </div>
         </div>
         <div className="field">
             <div className="control">
-                <input type="password" className="input" placeholder="pwd" name="pwd" />
+                <input required={true} type="password" className="input" placeholder="pwd" name="pwd" />
             </div>
         </div>
         <div className="field is-grouped">
@@ -80,22 +88,22 @@ export default function Landing() {
     const reg = state === "register" ? <form onSubmit={do_register} className="form">
         <div className="field">
             <div className="control">
-                <input className="input" placeholder="first name" name="first" />
+                <input required={true} className="input" placeholder="first name" name="first" />
             </div>
         </div>
         <div className="field">
             <div className="control">
-                <input className="input" placeholder="last name" name="last" />
+                <input required={true} className="input" placeholder="last name" name="last" />
             </div>
         </div>
         <div className="field">
             <div className="control">
-                <input className="input" placeholder="username" name="username" />
+                <input required={true} className="input" placeholder="email" name="email" />
             </div>
         </div>
         <div className="field">
             <div className="control">
-                <input type="password" className="input" placeholder="pwd" name="pwd" />
+                <input required={true} type="password" className="input" placeholder="pwd" name="pwd" />
             </div>
         </div>
         <div className="field is-grouped">

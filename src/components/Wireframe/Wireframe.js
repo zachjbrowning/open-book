@@ -11,10 +11,7 @@ const Exam = lazy(() => import('../Exam/Exam'));
 const Subframe = lazy(() => import('./Subframe'));
 
 export default function Wireframe() {
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(load_collection());
-    }, [])
+    
 
     const root = document.documentElement;
     root.style.setProperty("--background", "#FFFFFF");

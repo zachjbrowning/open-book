@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import styles from './Nav.module.scss';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { toggle_night } from '../../../lib/redux/actions/nightAction';
 import { day, night, auth } from '../Utils/Icon';
+import { set_modal, unset_modal } from '../../../lib/redux/actions/modalAction';
+import { logout } from '../../../lib/redux/actions/authAction';
 
 export default function Nav() {
     const isDark = useSelector(state => state.night);
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const toggle = e => {
         e.checked = !isDark; 
@@ -26,6 +29,10 @@ export default function Nav() {
 
 
         }
+    }
+
+    const do_logout = () => {
+        dispatch(set_modal("Logout", "Ready to log out??", () => {dispatch(logout()).then(() => {dispatch(unset_modal()); history.push("/")});}, false));
     }
 
     return <div className={styles.navBox}>
@@ -52,7 +59,7 @@ export default function Nav() {
                         {night}
                     </svg>
                 </div>
-                <div className={styles.auth}>
+                <div onClick={do_logout} className={styles.auth}>
                     <svg x="0px" y="0px" viewBox="0 0 8192 8192" >
                         {auth}
                     </svg>
