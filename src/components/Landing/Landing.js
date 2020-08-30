@@ -30,11 +30,10 @@ export default function Landing() {
     return <>
         <div className={styles.canvas} />
         <main>
-            <div className={`container ${styles.mainFrame}`}>
-
-                <div className={styles.boxLocator}>
+            <div className={`container ${styles.center}`}>
+                <div className={`${styles.lower} column is-8`}>
                     
-                    {
+                {
                         state === "home" ? <>
                         <div className={styles.box}>
                             <h1 className={`title is-1 ${styles.hello}`}>Openbook</h1>
@@ -51,16 +50,7 @@ export default function Landing() {
                     }
                     {
                         state === "login" ? <form onSubmit={do_login} className="form">
-                            <div className="field">
-                                <div className="control">
-                                    <input className="input" placeholder="first name" name="first" />
-                                </div>
-                            </div>
-                            <div className="field">
-                                <div className="control">
-                                    <input className="input" placeholder="last name" name="last" />
-                                </div>
-                            </div>
+                            
                             <div className="field">
                                 <div className="control">
                                     <input className="input" placeholder="email" name="email" />
@@ -84,32 +74,43 @@ export default function Landing() {
                     }
                     {
                         state === "register" ? <form onSubmit={do_register} className="form">
-                        <div className="field">
-                            <div className="control">
-                                <input className="input" placeholder="username" name="username" />
+                            <div className="field">
+                                <div className="control">
+                                    <input className="input" placeholder="first name" name="first" />
+                                </div>
                             </div>
-                        </div>
-                        <div className="field">
-                            <div className="control">
-                                <input type="password" className="input" placeholder="pwd" name="pwd" />
+                            <div className="field">
+                                <div className="control">
+                                    <input className="input" placeholder="last name" name="last" />
+                                </div>
                             </div>
-                        </div>
-                        <div className="field is-grouped">
-                            <div className="control">
-                                <button type="submit" className="button is-primary">Register</button>
+                            <div className="field">
+                                <div className="control">
+                                    <input className="input" placeholder="username" name="username" />
+                                </div>
                             </div>
-                            <div className="control">
-                                <button onClick={e => {e.preventDefault(); setState("home")}} className="button">Cancel</button>
+                            <div className="field">
+                                <div className="control">
+                                    <input type="password" className="input" placeholder="pwd" name="pwd" />
+                                </div>
                             </div>
-                        </div>
-                        <p>Already have an account? <a onClick={() => setState("login")}>login</a></p>
-                    </form> : "" 
-                    }
+                            <div className="field is-grouped">
+                                <div className="control">
+                                    <button type="submit" className="button is-primary">Register</button>
+                                </div>
+                                <div className="control">
+                                    <button onClick={e => {e.preventDefault(); setState("home")}} className="button">Cancel</button>
+                                </div>
+                            </div>
+                            <p>Already have an account? <a onClick={() => setState("login")}>login</a></p>
+                        </form> : "" 
+                    }            
+                
+                
+                
                 </div>
-
-
-                {/* LOGIN PAGE */}
             </div>
+            
         </main>
     </>
 }
