@@ -1,0 +1,59 @@
+# API documentation and data representation
+
+## Data models
+ - User
+   - email (primary)
+   - password
+   - first name
+   - last name
+ - Collections
+   - user foreign key (part of primary key)
+   - collection name (part of primary key)
+ - Notes
+   - collection foreign key (part of primary key)
+   - note title (part of primary key)
+   - notes
+ - Keywords
+   - note foreign key (part of primary key)
+   - keyword (part of primary key)
+
+## API routes
+- /user/
+  - /login/ POST
+    - Params : email, pwd
+    - Returns : token
+  - /logout/ GET
+    - Params : 
+    - Returns : 
+  - /register/ POST
+    - Params : first, last, email, pwd
+    - Returns : token
+- /collection/ 
+  - / POST 
+    - Params : title
+    - Returns : id
+  - / GET
+    - Params : 
+    - Returns : { name : { id : <int>, notes : false}, ... }
+  - /:id/ GET
+    - Params : id
+    - Returns : { title : {id : <int>, keywords : [], notes : <string>}, ... }
+  - /:id/ DELETE
+    - Params : id
+    - Returns : 
+  - /:id/ PATCH
+    - Params : title
+    - Returns : 
+- /note/
+  - / POST
+    - Params : collection, title, keywords, notes
+    - Returns : id
+  - /:id/ GET
+    - Params : 
+    - Returns : title, keywords, notes
+  - /:id/ DELETE
+    - Params : 
+    - Returns : 
+  - /:id/ PATCH
+    - Params : title, keywords, notes
+    - Returns : 
