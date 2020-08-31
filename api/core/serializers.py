@@ -45,3 +45,30 @@ class CustomUserUpdateSerializer(serializers.ModelSerializer):
         instance.set_password(validated_data.get("password"))
         instance.save()
         return instance 
+
+class CollectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Collection
+        fields = ["id", "owner", "title"]
+
+    def update(self, instance, validated_data):
+        instance.title = validated_data.get("title", instance.title)
+        instance.save()
+        return instance
+    
+
+class KeywordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Keyword
+        fields = ["id", "note", "keyword"]
+        
+class NoteSerializer(serializers.ModelSerializer):
+    keyword = KeywordSerializer(many=True)
+
+    class Meta:
+        model = Note 
+        fields = ["id", "title", "keyword", "notes"]
+
+    
+
+

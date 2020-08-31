@@ -46,3 +46,35 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.email
 
+
+class Collection(models.Model):
+    owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    title = models.CharField(max_length = 100)
+
+    class Meta:
+        unique_together = ['owner', 'title']
+
+    def __str__(self):
+        return self.title 
+
+class Note(models.Model):
+    collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
+    title = models.CharField(max_length = 100)
+    notes = models.CharField(max_length = 2000)
+
+    class Meta:
+        unique_together = ['collection', 'title']
+
+    def __str__(self):
+        return self.title 
+
+class Keyword(models.Model):
+    note = models.ForeignKey(Note, on_delete=models.CASCADE)
+    keyword = models.CharField(max_length = 100)
+
+    class Meta:
+        unique_together = ['note', 'keyword']
+
+    def __str__(self):
+        return self.keyword 
+
