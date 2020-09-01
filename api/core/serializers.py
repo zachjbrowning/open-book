@@ -58,17 +58,29 @@ class CollectionSerializer(serializers.ModelSerializer):
 
     
 
+
 class KeywordSerializer(serializers.ModelSerializer):
     class Meta:
         model = Keyword
         fields = ["keyword"]
+
+    
         
 class NoteSerializer(serializers.ModelSerializer):
     keywords = KeywordSerializer(many=True)
 
     class Meta:
         model = Note 
-        fields = ["id", "title", "keywords", "notes"]
+        fields = ["id", "title", "keywords", "notes", "collection"]
+        extra_kwargs = {
+            "keywords": {"required": False},
+        }
+
+class NoteUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Note
+        fields = ["title", "notes"]
+        
 
     
 

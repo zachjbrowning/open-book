@@ -10,7 +10,7 @@ export default function Edit(props  ) {
     const dispatch = useDispatch();
     const active = useSelector(state => state.active);
     const collection = useSelector(state => state.collection);
-    let keywords = active.note ? collection[active.notebook][active.note].keywords : active.new;
+    let keywords = active.note ? collection[active.notebook].notes[active.note].keywords : active.new;
     
     const addCat = e => {
         e.preventDefault();
@@ -18,7 +18,11 @@ export default function Edit(props  ) {
         if (active.new ) {
             dispatch(new_cat(e.target.elements.keyword.value.toLowerCase()));
         } else {
-            dispatch(new_cat_collection(active.notebook, active.note, e.target.elements.keyword.value.toLowerCase()))
+            dispatch(new_cat_collection(
+                active.notebook, 
+                collection[active.notebook].notes[active.note].id,
+                active.note, 
+                e.target.elements.keyword.value.toLowerCase()))
         }
 
         e.target.elements.keyword.value = "";
@@ -28,24 +32,34 @@ export default function Edit(props  ) {
         if (active.new) {
             dispatch(del_cat(key));
         } else {
-            dispatch(del_cat_collection(active.notebook, active.note, key));
+            dispatch(del_cat_collection(
+                active.notebook, 
+                collection[active.notebook].notes[active.note].id,
+                active.note, 
+                key));
         }
     }
 
     const saveNote = () => {
         if (active.new) {
-            dispatch(new_note(active.notebook, document.getElementById("title-input").value, {
-                keywords : active.new,
-                notes : document.getElementById("notes-input").value,
-            }))
+            dispatch(new_note(
+                active.notebook, 
+                collection[active.notebook].id,
+                document.getElementById("title-input").value, 
+                active.new,
+                document.getElementById("notes-input").value))
             .then(() => {
                 dispatch(unset_note());
             });
         } else {
-            dispatch(edit_note(active.note, active.notebook, document.getElementById("title-input").value, {
-                keywords : collection[active.notebook][active.note].keywords,
-                notes : document.getElementById("notes-input").value,
-            }))
+            dispatch(edit_note(
+                active.notebook,
+                collection[active.notebook].notes[active.note].id,
+                active.note, 
+                document.getElementById("title-input").value,
+                keywords,
+                document.getElementById("notes-input").value 
+            ))
             .then(dispatch(unset_note()));
         }
     }
@@ -56,7 +70,7 @@ export default function Edit(props  ) {
 
         <div className="field control">
             <label className="label">Title</label>
-            <input id="title-input" defaultValue={active.note ? active.note : ""} className="input" />
+            <input required={true} id="title-input" defaultValue={active.note ? active.note : ""} className="input" />
         </div>
         <div className="control">
             <label className="label">Keywords</label>
@@ -81,7 +95,7 @@ export default function Edit(props  ) {
         </div>
         <div className="field control">
             <label className="label">Note</label>
-            <textarea id="notes-input" className="textarea" defaultValue={active.note ? collection[active.notebook][active.note].notes : ""} />
+            <textarea required={true} id="notes-input" className="textarea" defaultValue={active.note ? collection[active.notebook].notes[active.note].notes : ""} />
         </div>
         <div className="field is-grouped control">
             <div onClick={saveNote} className="control">

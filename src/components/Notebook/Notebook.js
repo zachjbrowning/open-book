@@ -40,12 +40,12 @@ export default function Notebook() {
 
 
 
-    function deleteNote(title) {
+    function deleteNote(title, id) {
         dispatch(set_modal(
             "Are you sure?", 
             "Are you sure you want to delete this note? This action cannot be reverted.",
             () => {
-                dispatch(del_note(active.notebook, title));
+                dispatch(del_note(active.notebook, id, title));
                 return true;
             }, 
             false))
@@ -125,7 +125,7 @@ export default function Notebook() {
                                 <a onClick={() => select(val)}>
                                     {val}
                                 </a>
-                                <span onClick={() => deleteNote(val)} >
+                                <span onClick={() => deleteNote(val, notes[val].id)} >
                                     delete
                                 </span>
                             </div>
