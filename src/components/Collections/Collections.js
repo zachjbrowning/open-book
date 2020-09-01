@@ -15,12 +15,12 @@ export default function Notebooks() {
 
 
 
-    const delNotebook = (title) => {
+    const delNotebook = (id, title) => {
         dispatch(set_modal(
             "Are you sure?", 
             "Are you sure you want to delete this collection? This action cannot be reverted.",
             () => {
-                dispatch(del_coll(title));
+                dispatch(del_coll(id, title));
                 return true;
             }, 
             false))
@@ -69,7 +69,7 @@ export default function Notebooks() {
                                 {val}
                             </Link>
                             
-                            <p onClick={() => delNotebook(val)}>delete</p>
+                            <p onClick={() => delNotebook(collection[val].id, val)}>delete</p>
                         </div>
                     ))
                 }

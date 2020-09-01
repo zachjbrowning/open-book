@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { set_note, new_note, unset_note } from '../../../lib/redux/actions/activeAction';
-import { del_note } from '../../../lib/redux/actions/collectionAction';
+import { del_note, load_collection } from '../../../lib/redux/actions/collectionAction';
 import { update_query } from '../../../lib/redux/actions/queryAction';
 import { set_modal } from '../../../lib/redux/actions/modalAction';
 import View from './View';
@@ -32,7 +32,11 @@ export default function Notebook() {
     
     const notes = collection[notebook].notes;
 
-
+    useEffect(() => {
+        if (notes === false) {
+            dispatch(load_collection(notebook, collection[notebook].id));
+        }
+    }, [collection])
 
 
 
@@ -135,7 +139,7 @@ export default function Notebook() {
                     active.edit ? <> 
                         <Edit />
 
-                    </> : <View title={active.note} note={collection[active.notebook][active.note]}/>
+                    </> : <View title={active.note} note={collection[active.notebook].notes[active.note]}/>
                 }
                 
             </div>

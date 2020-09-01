@@ -92,7 +92,8 @@ class CollectionViewSet(viewsets.ModelViewSet):
         if request.user.is_authenticated:
             collection = Collection(owner=request.user, title=request.data["title"])
             collection.save()
-            return Response(200)
+            serialized = CollectionSerializer(collection)
+            return Response(serialized.data)
         else:
             return Response(401)
 
