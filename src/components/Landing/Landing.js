@@ -1,17 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import styles from './Landing.module.scss';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-
+import { useTransition, animated } from 'react-spring';
 
 import { login, register } from '../../../lib/redux/actions/authAction';
 
 export default function Landing() {
     const dispatch = useDispatch();
-    const [state, setState] = useState("home");
+    const [state, setState] = useState(0);
     const [alert, setAlert] = useState("haha ayeee");
     const history = useHistory();
     
+    const transitions = useTransition(state, p => p, {
+        from: { transform: 'translateY(20rem)', opacity: 0 },
+        enter: { transform: 'translateY(0rem)', opacity: 1 },
+        leave: { transform: 'translateY(-20rem)', opacity: 0 },
+    })
+
+
     const changeState = next => {
         setAlert(false);
         setState(next);
@@ -24,7 +31,7 @@ export default function Landing() {
             if ('error' in res) {
                 setAlert(res.error);
             } else {
-                history.push("/notebooks");
+                history.push("/collections");
             }
         })
 
@@ -37,99 +44,114 @@ export default function Landing() {
             if ('error' in res) {
                 setAlert(res.error);
             } else {
-                history.push('/notebooks');
+                history.push('/collections');
             }
         })
     }
-
-    
-
-    const home = state === "home" ? <>
-        <div className={styles.box}>
-            <h1 className={`title is-1 ${styles.hello}`}>Openbook</h1>
-        </div>
-        <div className={`field is-grouped`}>
-            <div className="control">
-                <button onClick={() => changeState("login")} className="button is-primary">Login</button>
-            </div>
-            <div className="control">
-                <button onClick={() => changeState("register")} className="button">Sign up</button>
-            </div>
-        </div>
-    </> : ""
 
     const warn = alert ? <div className={`notification is-primary ${styles.alert}`}>
         <button className="delete" onClick={() => setAlert(false)} />
         {alert}
     </div> : ""
 
-    const log = state === "login" ? <form onSubmit={do_login} className="form">
-        <div className="field">
-            <div className="control">
-                <input required={true} className="input" placeholder="email" name="email" />
+    const sections = [
+        ({ style }) => <animated.div className={styles.movable} style={style}>
+            <div className={`container ${styles.center}`}>
+                <div className={`${styles.lower} column is-8`}>
+                    <div className={styles.box}>
+                        <h1 className={`title is-1 ${styles.hello}`}>Openbook</h1>
+                    </div>
+                    <div className={`field is-grouped`}>
+                        <div className="control">
+                            <button onClick={() => changeState(1)} className="button is-primary">Login</button>
+                        </div>
+                        <div className="control">
+                            <button onClick={() => changeState(2)} className="button">Sign up</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div className="field">
-            <div className="control">
-                <input required={true} type="password" className="input" placeholder="pwd" name="pwd" />
+        </animated.div>,
+        ({ style }) => <animated.div className={styles.movable} style={style}>
+            <div className={`container ${styles.center}`}>
+                <div className={`${styles.lower} column is-8`}>
+                    {warn}
+                    <form onSubmit={do_login} className="form">
+                        <div className="field">
+                            <div className="control">
+                                <input required={true} className="input" placeholder="email" name="email" />
+                            </div>
+                        </div>
+                        <div className="field">
+                            <div className="control">
+                                <input required={true} type="password" className="input" placeholder="pwd" name="pwd" />
+                            </div>
+                        </div>
+                        <div className="field is-grouped">
+                            <div className="control">
+                                <button type="submit" className="button is-primary">Login</button>
+                            </div>
+                            <div className="control">
+                                <button onClick={e => {e.preventDefault(); changeState(0)}} className="button">Cancel</button>
+                            </div>
+                        </div>
+                        <p>Don't have an account? <a onClick={() => changeState(2)}>Register</a></p>
+                    </form>
+                </div>
             </div>
-        </div>
-        <div className="field is-grouped">
-            <div className="control">
-                <button type="submit" className="button is-primary">Login</button>
+        </animated.div>,
+        ({ style }) => <animated.div className={styles.movable} style={style}>
+            <div className={`container ${styles.center}`}>
+                <div className={`${styles.lower} column is-8`}>
+                    {warn}
+                    <form onSubmit={do_register} className="form">
+                        <div className="field">
+                            <div className="control">
+                                <input required={true} className="input" placeholder="first name" name="first" />
+                            </div>
+                        </div>
+                        <div className="field">
+                            <div className="control">
+                                <input required={true} className="input" placeholder="last name" name="last" />
+                            </div>
+                        </div>
+                        <div className="field">
+                            <div className="control">
+                                <input required={true} className="input" placeholder="email" name="email" />
+                            </div>
+                        </div>
+                        <div className="field">
+                            <div className="control">
+                                <input required={true} type="password" className="input" placeholder="pwd" name="pwd" />
+                            </div>
+                        </div>
+                        <div className="field is-grouped">
+                            <div className="control">
+                                <button type="submit" className="button is-primary">Register</button>
+                            </div>
+                            <div className="control">
+                                <button onClick={e => {e.preventDefault(); changeState(0)}} className="button">Cancel</button>
+                            </div>
+                        </div>
+                        <p>Already have an account? <a onClick={() => changeState(1)}>login</a></p>
+                    </form>
+                </div>
             </div>
-            <div className="control">
-                <button onClick={e => {e.preventDefault(); changeState("home")}} className="button">Cancel</button>
-            </div>
-        </div>
-        <p>Don't have an account? <a onClick={() => setState("register")}>Register</a></p>
-    </form> : ""
+        </animated.div>
+    ]
 
-    const reg = state === "register" ? <form onSubmit={do_register} className="form">
-        <div className="field">
-            <div className="control">
-                <input required={true} className="input" placeholder="first name" name="first" />
-            </div>
-        </div>
-        <div className="field">
-            <div className="control">
-                <input required={true} className="input" placeholder="last name" name="last" />
-            </div>
-        </div>
-        <div className="field">
-            <div className="control">
-                <input required={true} className="input" placeholder="email" name="email" />
-            </div>
-        </div>
-        <div className="field">
-            <div className="control">
-                <input required={true} type="password" className="input" placeholder="pwd" name="pwd" />
-            </div>
-        </div>
-        <div className="field is-grouped">
-            <div className="control">
-                <button type="submit" className="button is-primary">Register</button>
-            </div>
-            <div className="control">
-                <button onClick={e => {e.preventDefault(); changeState("home")}} className="button">Cancel</button>
-            </div>
-        </div>
-        <p>Already have an account? <a onClick={() => changeState("login")}>login</a></p>
-    </form> : ""
+
 
     return <>
         <div className={styles.canvas} />
-        <main>
-            <div className={`container ${styles.center}`}>
-                <div className={`${styles.lower} column is-8`}>
-                
-                {
-                        state === "home" ? <>{home}</> : 
-                        state === "login" ? <>{warn}{log}</> : 
-                        state === "register" ? <>{warn}{reg}</> : ""
-                }           
-                </div>
-            </div>
+        <main className={styles.hide}>
+            {
+            
+                transitions.map(({ item, props, key }) => {
+                    const Page = sections[item];
+                    return <Page key={key} style={props} />
+                }) 
+            }
             
         </main>
     </>

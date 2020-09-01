@@ -30,10 +30,13 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = CustomUserSerializer
 
     # Adjusted permissions so that only admins can see a list of the users
-    def get_permissions(self):
-        if self.action == "list":
-            self.permission_classes = [IsAdminUser]
-        return super(UserViewSet, self).get_permissions()
+    def list(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            queryset = CustomUser.objects.get(pk=request.user.id)
+            serializer = self.get_serializer(queryset)
+            return Response(serializer.data)
+        else:
+            return Response(401)
 
 class UserCreate(generics.CreateAPIView):
     queryset = CustomUser.objects.all().order_by("-id")
@@ -65,3 +68,56 @@ class UserLogout(APIView):
     def get(self, request):
         request.user.auth_token.delete()
         return Response(status=status.HTTP_200_OK)
+
+
+class CollectionViewSet(viewsets.ModelViewSet):
+    queryset = Collection.objects.all()
+    serializer_class = CollectionSerializer
+
+    def list(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            queryset = Collection.objects.filter(owner=request.user.id)
+            serializer = self.get_serializer(queryset, many=True)
+            res = {}
+            for col in serializer.data:
+                res[col["title"]] = {
+                    "id" : col["id"],
+                    "notes" : False
+                }
+            return Response(res)
+        else:
+            return Response(401)
+
+    def create(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            collection = Collection(owner=request.user, title=request.data["title"])
+            collection.save()
+            return Response(200)
+        else:
+            return Response(401)
+
+    def retrieve(self, request, pk=None, *args, **kwargs):
+        if request.user.is_authenticated:
+            try:
+                collection = Collection.objects.get(pk=pk)
+            except:
+                return Response(400)
+            if collection.owner != request.user:
+                return Response(403)
+            serializer = self.get_serializer(collection)
+            noteset = Note.objects.filter(collection=collection)
+            noteser = NoteSerializer(noteset, many=True)
+            res = serializer.data
+            res["notes"] = {}
+            for note in noteser.data:
+                res["notes"][note["title"]] = {
+                    "id" : note["id"],
+                    "keywords" : [x["keyword"] for x in note["keywords"]],
+                    "notes" : note["notes"],
+
+                }
+            return Response(res)
+        else:
+            return Response(401)
+
+

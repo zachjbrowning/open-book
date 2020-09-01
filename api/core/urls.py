@@ -4,6 +4,7 @@ from .views import *
 
 router = routers.DefaultRouter()
 router.register(r'user', UserViewSet)
+router.register(r'collection', CollectionViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

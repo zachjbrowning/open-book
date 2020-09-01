@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './Notebooks.module.scss';
+import styles from './Collections.module.scss';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -65,7 +65,7 @@ export default function Notebooks() {
                 {
                     Object.keys(collection).map((val, idx) => (
                         <div key={idx} className={`${idx % 2 === 0 ? styles.colored : ""} ${styles.notebook} `}>
-                            <Link onClick={() => dispatch(set_notebook(val))} to={`/notebooks/${val.toLowerCase().replace(" ", "-")}`}>
+                            <Link onClick={() => dispatch(set_notebook(val))} to={`/collections/${val.toLowerCase().replace(" ", "-")}`}>
                                 {val}
                             </Link>
                             

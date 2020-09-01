@@ -6,6 +6,19 @@
     top:0;
 }
 
+.movable {
+    width:100%;
+    height:100%;
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+}
+
+.hide {
+    overflow : hidden;
+}
+
 .center {
     height:100%;
     display:flex;

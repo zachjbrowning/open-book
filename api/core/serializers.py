@@ -55,19 +55,20 @@ class CollectionSerializer(serializers.ModelSerializer):
         instance.title = validated_data.get("title", instance.title)
         instance.save()
         return instance
+
     
 
 class KeywordSerializer(serializers.ModelSerializer):
     class Meta:
         model = Keyword
-        fields = ["id", "note", "keyword"]
+        fields = ["keyword"]
         
 class NoteSerializer(serializers.ModelSerializer):
-    keyword = KeywordSerializer(many=True)
+    keywords = KeywordSerializer(many=True)
 
     class Meta:
         model = Note 
-        fields = ["id", "title", "keyword", "notes"]
+        fields = ["id", "title", "keywords", "notes"]
 
     
 

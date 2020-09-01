@@ -57,10 +57,18 @@ class Collection(models.Model):
     def __str__(self):
         return self.title 
 
+class Keyword(models.Model):
+    keyword = models.CharField(max_length = 100, primary_key=True)
+
+    def __str__(self):
+        return self.keyword 
+
+
 class Note(models.Model):
     collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
     title = models.CharField(max_length = 100)
     notes = models.CharField(max_length = 2000)
+    keywords = models.ManyToManyField(Keyword, blank=True, related_name="note")
 
     class Meta:
         unique_together = ['collection', 'title']
@@ -68,13 +76,4 @@ class Note(models.Model):
     def __str__(self):
         return self.title 
 
-class Keyword(models.Model):
-    note = models.ForeignKey(Note, on_delete=models.CASCADE)
-    keyword = models.CharField(max_length = 100)
-
-    class Meta:
-        unique_together = ['note', 'keyword']
-
-    def __str__(self):
-        return self.keyword 
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Notebook.module.scss';
 import { Link, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -30,7 +30,7 @@ export default function Notebook() {
     const active = useSelector(state => state.active);
     
     
-    const notes = collection[notebook];
+    const notes = collection[notebook].notes;
 
 
 
