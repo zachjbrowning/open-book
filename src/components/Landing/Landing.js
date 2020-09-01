@@ -1,13 +1,14 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Landing.module.scss';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTransition, animated } from 'react-spring';
 
 import { login, register } from '../../../lib/redux/actions/authAction';
 
 export default function Landing() {
     const dispatch = useDispatch();
+    const email = useSelector(state => state.auth.email);
     const [state, setState] = useState(0);
     const [alert, setAlert] = useState("haha ayeee");
     const history = useHistory();
@@ -36,6 +37,12 @@ export default function Landing() {
         })
 
     }
+
+    useEffect(() => {
+        if (email) {
+            history.push("/collections");
+        }
+    }, [email])
 
     const do_register = e => {
         e.preventDefault();

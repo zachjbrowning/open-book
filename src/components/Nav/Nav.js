@@ -38,7 +38,7 @@ export default function Nav() {
     return <div className={styles.navBox}>
             <div className={`container ${styles.navFrame}`}>
                 <div className={styles.title}>
-                    <Link to="/notebooks">
+                    <Link to="/collections">
                         <h1 className={styles.brand}>Open Book</h1>
                     </Link>
                 </div>

@@ -163,9 +163,9 @@ class NoteViewSet(viewsets.ModelViewSet):
                 it, _ = Keyword.objects.get_or_create(keyword=key)
                 note.keywords.add(it)
             serialized = NoteSerializer(note)
-
-            #Add the keywords to the note, create them if need be.
-            return Response(serialized.data)
+            res = serialized.data
+            res["keywords"] = [x["keyword"] for x in res["keywords"]]
+            return Response(res)
         else:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
