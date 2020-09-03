@@ -4,6 +4,8 @@ import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { auto_login } from '../../../lib/redux/actions/authAction';
+import { set_night } from '../../../lib/redux/actions/nightAction';
+import { Night } from '../../../lib/api/localstorage';
 
 const Landing = lazy(() => import('../Landing/Landing'));
 const Exam = lazy(() => import('../Exam/Exam'));
@@ -14,11 +16,8 @@ export default function Wireframe() {
     const location = useLocation();
     const history = useHistory();
     const email = useSelector(state => state.auth.email);
-
-    const root = document.documentElement;
-    root.style.setProperty("--background", "#FFFFFF");
-    root.style.setProperty("--background-accent", "#EDEDED");
-    root.style.setProperty("--text", "#222222");
+    const night = useSelector(state => state.night);
+    
 
 
     useEffect(() => {
@@ -27,6 +26,10 @@ export default function Wireframe() {
             .then(res => {
                 if (res && location.pathname === "/") history.push("/collections")
             })
+        }
+        let true_night = Night.getNight();
+        if (true_night !== null && true_night !== night) {
+            dispatch(set_night(true_night === "true"));
         }
     }, [])
     

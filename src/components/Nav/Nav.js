@@ -3,7 +3,7 @@ import styles from './Nav.module.scss';
 import { Link, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { toggle_night } from '../../../lib/redux/actions/nightAction';
+import { set_night } from '../../../lib/redux/actions/nightAction';
 import { day, night, auth } from '../Utils/Icon';
 import { set_modal, unset_modal } from '../../../lib/redux/actions/modalAction';
 import { logout } from '../../../lib/redux/actions/authAction';
@@ -15,20 +15,7 @@ export default function Nav() {
 
     const toggle = e => {
         e.checked = !isDark; 
-        dispatch(toggle_night());
-        const root = document.documentElement;
-        if (!isDark) {
-            root.style.setProperty("--background", "#333333");
-            root.style.setProperty("--background-accent", "#222222");
-            root.style.setProperty("--text", "#DDDDDD");
-
-        } else {
-            root.style.setProperty("--background", "#FFFFFF");
-            root.style.setProperty("--background-accent", "#EDEDED");
-            root.style.setProperty("--text", "#222222");
-
-
-        }
+        dispatch(set_night(!isDark));
     }
 
     const do_logout = () => {
