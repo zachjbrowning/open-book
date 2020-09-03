@@ -69,7 +69,7 @@ export default function Notebooks() {
                 {
                     Object.keys(collection).map((val, idx) => (
                         <div key={idx} className={`${idx % 2 === 0 ? styles.colored : ""} ${styles.notebook} `}>
-                            <Link onClick={() => dispatch(set_notebook(val, collection[val].id))} to={`/collections/${val.replace(/ /g, "-")}`}>
+                            <Link onClick={() => dispatch(set_notebook(val, collection[val].id))} to={`/collections/${val.replace(/ /g, "-")}/`}>
                                 {val}
                             </Link>
                             

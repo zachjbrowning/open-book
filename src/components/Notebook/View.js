@@ -18,9 +18,12 @@ export default function View(props) {
         <div className={styles.text}>
             {props.note.notes}
         </div>
-        <svg onClick={() => dispatch(edit_note(props.title))} className={styles.edit} viewBox="0 0 8192 8192">
-            {edit}
-        </svg>
+        {
+            !props.restricted ? <svg onClick={() => dispatch(edit_note(props.title))} className={styles.edit} viewBox="0 0 8192 8192">
+                {edit}
+            </svg> : ""
+        }
+        
         <svg onClick={() => dispatch(unset_note())} className={styles.close} viewBox="0 0 8192 8192">
             {close}
         </svg>

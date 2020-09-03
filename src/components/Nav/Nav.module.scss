@@ -12,6 +12,25 @@
     & .navFrame {
         display:flex;
         align-items:center;
+        .search {
+            margin-right:auto;
+            input {
+                min-width:calc(60vw - 4rem);
+                background-color:var(--background);
+                color:var(--text);
+            }
+        }
+        .close {
+            cursor: pointer;
+            height:1.5rem;
+            &  svg {
+                height:100%;
+                fill:var(--title);
+            }
+            &:hover  svg {
+                fill:var(--text);
+            }
+        }
         .title {
             margin-right:auto;
             .brand {

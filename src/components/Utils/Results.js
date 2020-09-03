@@ -6,21 +6,23 @@ import { clear_query } from '../../../lib/redux/actions/queryAction';
 import { set_note } from '../../../lib/redux/actions/activeAction';
 
 export default function Results(props) {
-    const results = useSelector(state => state.query.results)
+    const query = useSelector(state => state.query)
     const dispatch = useDispatch();
 
+    if (query.searched) {
+        return <></>
+    }
 
     function select(title) {
-        props.clearFunc(false);
         dispatch(clear_query());
         document.getElementById(props.inputId).value = "";
         dispatch(set_note(title));
     }
     
     return <div className={styles.resultsBox}>
-        <div className={`${results.length > 0 ? styles.border : ""} ${styles.resultsHover}`}>
+        <div className={`${query.results.length > 0 ? styles.border : ""} ${styles.resultsHover}`}>
             {
-                results.map((title, idx) => <div onClick={() => select(title)} key={idx} className={styles.result}>
+                query.results.map((title, idx) => <div onClick={() => select(title)} key={idx} className={styles.result}>
                     {title}
                 </div>)
             }
