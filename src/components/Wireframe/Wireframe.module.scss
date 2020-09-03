@@ -30,6 +30,7 @@
     display:flex;
     flex-flow:column;
     height:100%;
+    position:relative;
     @media (min-width: 768px) {
         width: 700px;
     }

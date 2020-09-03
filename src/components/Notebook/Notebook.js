@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './Notebook.module.scss';
 import { Link, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTransition, animated } from 'react-spring';
 
 import { set_note, new_note, unset_note } from '../../../lib/redux/actions/activeAction';
 import { del_note, load_collection } from '../../../lib/redux/actions/collectionAction';
@@ -17,9 +18,11 @@ export default function Notebook() {
     const { book } = useParams();
     const collection = useSelector(state => state.collection);
     const [searched, setSearched] = useState(false);
+    
+    
     let notebook = false;
     for (var name of Object.keys(collection)) {
-        if (name.toLowerCase() === book.replace("-", " ")) {
+        if (name === book.replace(/-/g, " ")) {
             notebook = name;
             break;
         }
@@ -28,8 +31,6 @@ export default function Notebook() {
     if (!notebook) throw new Error("URL DIDN'tMATCH THE NOTEBOOK");
     
     const active = useSelector(state => state.active);
-    
-    
     const notes = collection[notebook].notes;
 
     useEffect(() => {
@@ -38,7 +39,11 @@ export default function Notebook() {
         }
     }, [collection])
 
-
+    const transitions = useTransition(active, null, {
+        from : {opacity : 0, transform : "translateY(10rem)"},
+        enter : {opacity : 1, transform : "translateY(0rem)"},
+        leave : {opacity : 0, transform : "translateY(-10rem)"},
+    })
 
     function deleteNote(title, id) {
         dispatch(set_modal(
@@ -62,7 +67,7 @@ export default function Notebook() {
         const query = e.target.elements.refine.value;
         dispatch(update_query(""));
         let temp = []
-        let dict = collection[active.notebook];
+        let dict = collection[active.notebook].notes;
         for (var n of Object.keys(dict)) {
             let index = dict[n].notes.toLowerCase().indexOf(query.toLowerCase());
             if (index !== -1) {
@@ -101,8 +106,8 @@ export default function Notebook() {
                     <p className={styles.word}>{val.words}</p>
                 </div>)
             }
-        </div> : ( 
-            !active.note && !active.edit ? 
+        </div> : <> 
+            {!active.note && !active.edit ? 
             <>
                 <form onSubmit={search} className={styles.search}>
                     <div className="field is-grouped">
@@ -133,17 +138,19 @@ export default function Notebook() {
                     }
                 </div>
             </>
-            : 
-            <div className={styles.popup}>
-                {
-                    active.edit ? <> 
-                        <Edit />
-
-                    </> : <View title={active.note} note={collection[active.notebook].notes[active.note]}/>
-                }
-                
-            </div>
-        )
+            : ""}
+        
+            {
+                transitions.map(({ item, key, props }) => 
+                (item.note || item.edit) && <animated.div key={key} style={props} className={styles.slideup}>
+                    {
+                        item.edit ? <Edit />
+                        : <View title={active.note} note={collection[active.notebook].notes[active.note]}/>
+                    }
+                </animated.div>
+            )}
+            
+        </>
         
 
     }

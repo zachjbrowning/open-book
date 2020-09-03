@@ -12,7 +12,7 @@ import { set_modal, set_warning } from '../../../lib/redux/actions/modalAction';
 export default function Notebooks() {
     const dispatch = useDispatch();
     const collection = useSelector(state => state.collection);
-
+    const auth = useSelector(state => state.auth);
 
 
     const delNotebook = (id, title) => {
@@ -40,10 +40,14 @@ export default function Notebooks() {
             </>,
             () => {
                 let input = document.getElementById("new-col-title");
+                
                 if (input.value in collection) {
                     dispatch(set_warning("That collection already exists. Please use a new name."));
                     input.value = ""
                     return false;
+                } else if (!input.value.match(/^[0-9a-zA-Z ]+$/)) {
+                    dispatch(set_warning("Please make sure your collection name consists only of letters, numbers and spaces."));
+                    input.value = ""
                 } else {
                     dispatch(new_coll(input.value));
                     return true;
@@ -53,11 +57,11 @@ export default function Notebooks() {
         ));
     }
     
-    const name = "Zachary"
+    
     
     return <>
         <div className={styles.welcome}>
-            <h1>Welcome, <span>{name}</span>!!</h1>        
+            <h1>Welcome, <span>{auth.first_name}</span>!!</h1>        
         </div>
         <div className={styles.collections}>
             <h3>Your collections</h3>
@@ -65,7 +69,7 @@ export default function Notebooks() {
                 {
                     Object.keys(collection).map((val, idx) => (
                         <div key={idx} className={`${idx % 2 === 0 ? styles.colored : ""} ${styles.notebook} `}>
-                            <Link onClick={() => dispatch(set_notebook(val, collection[val].id))} to={`/collections/${val.toLowerCase().replace(" ", "-")}`}>
+                            <Link onClick={() => dispatch(set_notebook(val, collection[val].id))} to={`/collections/${val.replace(/ /g, "-")}`}>
                                 {val}
                             </Link>
                             

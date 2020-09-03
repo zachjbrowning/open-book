@@ -45,7 +45,7 @@ export default function Edit(props  ) {
             dispatch(new_note(
                 active.notebook, 
                 collection[active.notebook].id,
-                document.getElementById("title-input").value, 
+                document.getElementById("title-input").value.toLowerCase(), 
                 active.new,
                 document.getElementById("notes-input").value))
             .then(() => {
@@ -56,7 +56,7 @@ export default function Edit(props  ) {
                 active.notebook,
                 collection[active.notebook].notes[active.note].id,
                 active.note, 
-                document.getElementById("title-input").value,
+                document.getElementById("title-input").value.toLowerCase(),
                 keywords,
                 document.getElementById("notes-input").value 
             ))

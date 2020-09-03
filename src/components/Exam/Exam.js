@@ -118,7 +118,7 @@ export default function Exam() {
                     </svg>
                 </div>
                 <div className={styles.close}>
-                    <Link to={`/collections/${active.notebook.toLowerCase().replace(" ", "-")}`}>
+                    <Link to={`/collections/${active.notebook.replace(" ", "-")}`}>
                         <svg viewBox="0 0 8192 8192">
                             {close}
                         </svg>

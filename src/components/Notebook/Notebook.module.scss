@@ -57,15 +57,17 @@
     }
 }
 
-.popup {
-    margin-top:3rem;
+.slideup {
+    position:absolute;
+    min-height:calc(100vh - 10rem);
+    top:10rem;
+    left:0;
+    right:0;
     color:var(--text);
     background-color:var(--background-accent);
     padding:1rem;
     padding-top:2.5rem;
     border-radius: 1rem 1rem 0 0;
-    flex:1 1 auto;
-    position:relative;
     & > svg {
         cursor: pointer;
         position:absolute;
@@ -89,8 +91,8 @@
     .name, label {
         color:var(--text);
     }
-    
 }
+
 
 .searched {
     color:var(--text);
