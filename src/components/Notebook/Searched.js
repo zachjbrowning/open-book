@@ -6,7 +6,11 @@ import { set_note } from '../../../lib/redux/actions/activeAction';
 import { clear_query } from '../../../lib/redux/actions/queryAction';
 import { close } from '../Utils/Icon';
 
-
+/*
+    SEARCHED COMPONENT
+    Used to display search results. Results state is stored in query.
+    Exists within the Notebook and Exam components.
+*/
 export default function Searched(props) {
     const dispatch = useDispatch();
     const query = useSelector(state => state.query);

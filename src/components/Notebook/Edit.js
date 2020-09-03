@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Notebook.module.scss';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -6,12 +6,25 @@ import { unset_note, new_cat, del_cat } from '../../../lib/redux/actions/activeA
 import { close } from '../Utils/Icon';
 import { new_note, edit_note, new_cat_collection, del_cat_collection, del_note } from '../../../lib/redux/actions/collectionAction';
 
-export default function Edit(props  ) {
+/*
+    EDIT COMPONENT
+    Used to create and edit notes within a collection. 
+    Exists inside the same popup as View, inside the Notebook component.
+*/
+export default function Edit(props) {
     const dispatch = useDispatch();
+    
     const active = useSelector(state => state.active);
     const collection = useSelector(state => state.collection);
+    
+    const [warning, setWarning] = useState(false);
     let keywords = active.note ? collection[active.notebook].notes[active.note].keywords : active.new;
     
+
+    /*
+        Add a category to note. Mostly handled by redux.
+        Two cases : new note, edited note
+    */
     const addCat = e => {
         e.preventDefault();
         if (e.target.elements.keyword.value === "") return;
@@ -28,6 +41,11 @@ export default function Edit(props  ) {
         e.target.elements.keyword.value = "";
     }
 
+
+    /*
+        Remove a category to note. Mostly handled by redux.
+        Two cases : new note, edited note
+    */
     const removeCat = key => {
         if (active.new) {
             dispatch(del_cat(key));
@@ -40,25 +58,52 @@ export default function Edit(props  ) {
         }
     }
 
+    /*
+        Create a new note. Do some error checking then submit to redux
+        Two cases : new note, edited note
+    */
     const saveNote = () => {
+        let title = document.getElementById("title-input").value.toLowerCase();
+        let notes = document.getElementById("notes-input").value;
+        
+        //ERROR CHECKING REQUIRED FEILDS
+        if (!title || !notes) {
+            setWarning("Please fill out both the title and note field.")
+            return;
+        } 
+        //ERROR CHECKING VALID TITLE
+        else if (!title.match(/^[0-9a-zA-Z ]+$/) || title.match(/^[ ]+$/)) {
+            setWarning("Your title is invalid. Please only use alphanumerics and spaces.")
+            return;
+        } 
+        //ERROR CHECKING DISTINCT TITLE
+        else if ((active.new && title in collection[active.notebook].notes) ||
+        (!active.new && active.note !== title && title in collection[active.notebook].notes)) {
+            setWarning("A note already exists with this name. Please use a distinct name.")
+            return;
+        }
+        
+        //IF BRAND NEW NOTE
         if (active.new) {
             dispatch(new_note(
                 active.notebook, 
                 collection[active.notebook].id,
-                document.getElementById("title-input").value.toLowerCase(), 
+                title, 
                 active.new,
-                document.getElementById("notes-input").value))
+                notes))
             .then(() => {
                 dispatch(unset_note());
             });
-        } else {
+        } 
+        //IF EDITING A NOTE
+        else {
             dispatch(edit_note(
                 active.notebook,
                 collection[active.notebook].notes[active.note].id,
                 active.note, 
-                document.getElementById("title-input").value.toLowerCase(),
+                title,
                 keywords,
-                document.getElementById("notes-input").value 
+                notes 
             ))
             .then(dispatch(unset_note()));
         }
@@ -67,6 +112,16 @@ export default function Edit(props  ) {
     
 
     return <>
+        <div className="control">
+            {
+                warning ? 
+                <div className="notification is-primary">
+                    <button className="delete" onClick={() => setWarning(false)} />
+                    {warning}
+                </div>
+                : ""
+            }
+        </div>
 
         <div className="field control">
             <label className="label">Title</label>

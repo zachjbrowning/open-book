@@ -39,10 +39,10 @@ export default function Notebook() {
         }
     }, [collection])
 
-    const transitions = useTransition(active, null, {
-        from : {opacity : 0, transform : "translateY(10rem)"},
-        enter : {opacity : 1, transform : "translateY(0rem)"},
-        leave : {opacity : 0, transform : "translateY(-10rem)"},
+    const transitions = useTransition(active.popup, null, {
+        from : { opacity : 0, transform : "translateY(10rem)"},
+        enter : { opacity : 1, transform : "translateY(0rem)" },
+        leave : { opacity : 0, transform : "translateY(10rem)" },
     })
 
     function deleteNote(title, id) {
@@ -79,54 +79,54 @@ export default function Notebook() {
                 <button className="button is-primary">Exam mode</button>
             </Link>
         </div>
-    { 
-        searched ? <Searched /> : <> 
-            {!active.note && !active.edit ? 
-            <>
-                <form onSubmit={search} className={styles.search}>
-                    <div className="field is-grouped">
-                        <div className={`control ${styles.wider}`}>
-                            <input id="searchNotes" onChange={e => {e.preventDefault; dispatch(update_query(e.target.value))}} className="input" name="refine" placeholder="Search notes..." />
-                            <Results inputId="searchNotes" />
-                        </div>
-                        <div className="control">
-                            <button className="button is-primary is-light" type="submit">Search</button>
-                        </div>
-                    </div>
-                </form>  
-                <div className={styles.notes}>
-                    <div onClick={() => dispatch(new_note())} className={styles.add}>
-                        +<span>&nbsp;Add</span>
-                    </div>
-                    {
-                        Object.keys(notes).map((val, idx) => (
-                            <div key={idx} className={`${idx % 2 === 0 ? styles.colored : ""} ${styles.note}`}>
-                                <a onClick={() => select(val)}>
-                                    {val}
-                                </a>
-                                <span onClick={() => deleteNote(val, notes[val].id)} >
-                                    delete
-                                </span>
+        { 
+            searched ? <Searched /> : <> 
+                {!active.note && !active.edit ? 
+                <>
+                    <form onSubmit={search} className={styles.search}>
+                        <div className="field is-grouped">
+                            <div className={`control ${styles.wider}`}>
+                                <input id="searchNotes" onChange={e => {e.preventDefault; dispatch(update_query(e.target.value))}} className="input" name="refine" placeholder="Search notes..." />
+                                <Results inputId="searchNotes" />
                             </div>
-                        ))
-                    }
-                </div>
-            </>
-            : ""}
-        
-            {
-                transitions.map(({ item, key, props }) => 
-                (item.note || item.edit) && <animated.div key={key} style={props} className={styles.slideup}>
-                    {
-                        item.edit ? <Edit />
-                        : <View title={active.note} note={collection[active.notebook].notes[active.note]}/>
-                    }
-                </animated.div>
-            )}
+                            <div className="control">
+                                <button className="button is-primary is-light" type="submit">Search</button>
+                            </div>
+                        </div>
+                    </form>  
+                    <div className={styles.notes}>
+                        <div onClick={() => dispatch(new_note())} className={styles.add}>
+                            +<span>&nbsp;Add</span>
+                        </div>
+                        {
+                            Object.keys(notes).map((val, idx) => (
+                                <div key={idx} className={`${idx % 2 === 0 ? styles.colored : ""} ${styles.note}`}>
+                                    <a onClick={() => select(val)}>
+                                        {val}
+                                    </a>
+                                    <span onClick={() => deleteNote(val, notes[val].id)} >
+                                        delete
+                                    </span>
+                                </div>
+                            ))
+                        }
+                    </div>
+                </>
+                : ""}
             
-        </>
-        
+                
+            </>
+            
 
-    }
+        }
+        {
+            transitions.map(({ item, key, props }) => 
+            item && <animated.div id="BRUHH" key={key} style={props} className={styles.slideup}>
+                {
+                    active.edit ? <Edit />
+                    : <View title={active.note} note={collection[active.notebook].notes[active.note]}/>
+                }
+            </animated.div>
+        )}
     </>
 }

@@ -15,7 +15,6 @@ export default function Nav() {
     const dispatch = useDispatch();
     const history = useHistory();
     const { book } = useParams();
-    console.log(book);
     const toggle = e => {
         e.checked = !isDark; 
         dispatch(set_night(!isDark));

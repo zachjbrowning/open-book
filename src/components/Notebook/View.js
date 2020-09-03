@@ -5,8 +5,17 @@ import { useDispatch } from 'react-redux';
 import { unset_note, edit_note } from '../../../lib/redux/actions/activeAction';
 import { edit, close } from '../Utils/Icon';
 
+/*
+    VIEW COMPONENT
+    Used to display the contents of a note. Shows as a popup, 
+    in conjuection with the edit component.
+    Exists within the Exam and Notebook
+*/
 export default function View(props) {
     const dispatch = useDispatch();
+
+    // This is to enable react spring transitions to work when no note is set
+    if (!props.note) return <></>
 
     return <>
         <h5 className={`${styles.name} title is-5`}>{props.title}</h5>
