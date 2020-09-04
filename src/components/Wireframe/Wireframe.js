@@ -24,7 +24,7 @@ export default function Wireframe() {
     useEffect(() => {
         //ONLY WANT TO REDIRECT IF ITS A RESTRICTED PAGE...
         if (!email) {
-            history.push("/", { from : history.location.pathname})
+            history.push("/", { prev : history.location.pathname})
         }
         let true_night = Night.getNight();
         if (true_night !== null && true_night !== night) {

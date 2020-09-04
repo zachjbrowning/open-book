@@ -46,13 +46,14 @@ export default function Landing() {
             dispatch(auto_login())
             .then(res => {
                 if (res) {
-                    
-                    if (history.location.state) history.push(history.location.state.from);
-                    else history.push("/collections/");
+                    if (history.location.state?.prev && history.location.state.prev !== "/") history.push(history.location.state.prev);
+                    else {
+                        history.push("/collections/");
+                    }
                 }
             })
         } else {
-            if (history.location.state) history.push(history.location.state.from);
+            if (history.location.state?.prev && history.location.state.prev !== "/") history.push(history.location.state.from);
             else history.push("/collections/");
         }
     }, [])
