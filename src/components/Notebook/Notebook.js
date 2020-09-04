@@ -40,11 +40,9 @@ export default function Notebook() {
     const notebook = book.replace(/-/g, " ");
     useEffect(() => {
         if (collection && Object.keys(collection).length === 0) {
-            console.log("Shouldn't be any dicts");
             history.push("/uh-oh/");
         } else {
             if (collection && Object.keys(collection).length > 0 && !(notebook in collection)) {
-                console.log("Book not real");
                 history.push("/uh-oh/");
             }
         }
@@ -52,7 +50,9 @@ export default function Notebook() {
     
     //Checking to make sure notebook has been loaded
     useEffect(() => {
-        if (collection && collection[notebook] && !collection[notebook].notes) 
+        if (collection && Object.keys(collection).length === 0) {
+            history.push("/uh-oh/");
+        } else if (collection && collection[notebook] && !collection[notebook].notes) 
             dispatch(load_collection(notebook, collection[notebook].id))
     }, [collection])
     
@@ -64,7 +64,9 @@ export default function Notebook() {
     })
     
     //If we're still waiting for the dispatch to resolve, return nothing
-    if (!collection) return <></>
+    if (!collection || Object.keys(collection).length === 0) return <></>
+    
+    //define notes to simplify later on stuff
     const notes = collection[notebook].notes;
 
     // Sets up the modal to display a deletion check to delete a note

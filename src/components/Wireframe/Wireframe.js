@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { set_night } from '../../../lib/redux/actions/nightAction';
 import { Night } from '../../../lib/utils/localstorage';
 
+import Modal from '../Modal/Modal';
 const Landing = lazy(() => import('../Landing/Landing'));
 const Nav = lazy(() => import('../Nav/Nav'));
 const Collections = lazy(() => import('../Collections/Collections'));
@@ -53,6 +54,7 @@ export default function Wireframe() {
                         <Route exact path="/collections/:book/exam-mode" component={Nav} />
                         <Route component={Nav} />
                     </Switch>
+                    <Modal />
                 </Route>
             </Switch>
 

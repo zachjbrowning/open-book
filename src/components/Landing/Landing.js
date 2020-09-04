@@ -46,6 +46,7 @@ export default function Landing() {
             dispatch(auto_login())
             .then(res => {
                 if (res) {
+                    
                     if (history.location.state) history.push(history.location.state.from);
                     else history.push("/collections/");
                 }
