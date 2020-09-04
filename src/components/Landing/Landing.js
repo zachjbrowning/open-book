@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTransition, animated } from 'react-spring';
 
+import { auto_login } from '../../../lib/redux/actions/authAction';
 import { login, register } from '../../../lib/redux/actions/authAction';
 
 export default function Landing() {
@@ -32,17 +33,28 @@ export default function Landing() {
             if ('error' in res) {
                 setAlert(res.error);
             } else {
-                history.push("/collections");
+                history.push("/collections/");
             }
         })
 
     }
 
     useEffect(() => {
-        if (email) {
-            history.push("/collections");
+        let next = false;
+        if (history.location.state) next = history.location.state;
+        if (!email) {
+            dispatch(auto_login())
+            .then(res => {
+                if (res) {
+                    if (history.location.state) history.push(history.location.state.from);
+                    else history.push("/collections/");
+                }
+            })
+        } else {
+            if (history.location.state) history.push(history.location.state.from);
+            else history.push("/collections/");
         }
-    }, [email])
+    }, [])
 
     const do_register = e => {
         e.preventDefault();
@@ -51,7 +63,7 @@ export default function Landing() {
             if ('error' in res) {
                 setAlert(res.error);
             } else {
-                history.push('/collections');
+                history.push('/collections/');
             }
         })
     }

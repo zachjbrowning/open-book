@@ -3,29 +3,27 @@ import styles from './Wireframe.module.scss';
 import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { auto_login } from '../../../lib/redux/actions/authAction';
 import { set_night } from '../../../lib/redux/actions/nightAction';
-import { Night } from '../../../lib/api/localstorage';
+import { Night } from '../../../lib/utils/localstorage';
 
 const Landing = lazy(() => import('../Landing/Landing'));
-const Exam = lazy(() => import('../Exam/Exam'));
-const Subframe = lazy(() => import('./Subframe'));
+const Nav = lazy(() => import('../Nav/Nav'));
+const Collections = lazy(() => import('../Collections/Collections'));
+const Notebook = lazy(() => import('../Notebook/Notebook'));
+const Exam = lazy(() => import('../Notebook/Exam'));
+const NotFound = lazy(() => import('../Utils/NotFound'));
 
 export default function Wireframe() {
     const dispatch = useDispatch();    
-    const location = useLocation();
     const history = useHistory();
     const email = useSelector(state => state.auth.email);
     const night = useSelector(state => state.night);
     
 
-
     useEffect(() => {
+        //ONLY WANT TO REDIRECT IF ITS A RESTRICTED PAGE...
         if (!email) {
-            dispatch(auto_login())
-            .then(res => {
-                if (res && location.pathname === "/") history.push("/collections")
-            })
+            history.push("/", { from : history.location.pathname})
         }
         let true_night = Night.getNight();
         if (true_night !== null && true_night !== night) {
@@ -33,13 +31,29 @@ export default function Wireframe() {
         }
     }, [])
     
+
+
     return <>
         <Suspense fallback={<></>}>
 
             <Switch>
-                <Landing exact path="/" component={Landing} />
-                <Route path="/exam-mode" component={Exam} />
-                <Route component={Subframe} />
+                <Route exact path="/" component={Landing} />
+                <Route exact path="/uh-oh/">
+                    <main className={styles.constrict}>
+                        <NotFound />
+                    </main>
+                </Route>
+                <Route>
+                    <main className={styles.constrict}>
+                        <Route exact path="/collections/" component={Collections} />
+                        <Route exact path="/collections/:book/exam-mode" component={Exam} />
+                        <Route exact path="/collections/:book/" component={Notebook} />
+                    </main>
+                    <Switch>
+                        <Route exact path="/collections/:book/exam-mode" component={Nav} />
+                        <Route component={Nav} />
+                    </Switch>
+                </Route>
             </Switch>
 
         </Suspense>

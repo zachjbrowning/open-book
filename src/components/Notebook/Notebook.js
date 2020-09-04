@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styles from './Notebook.module.scss';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTransition, animated } from 'react-spring';
 
 import { set_note, new_note, unset_note } from '../../../lib/redux/actions/activeAction';
-import { del_note, load_collection } from '../../../lib/redux/actions/collectionAction';
+import { del_note, load_collection, load_all } from '../../../lib/redux/actions/collectionAction';
 import { update_query, search_query, clear_query } from '../../../lib/redux/actions/queryAction';
 import { set_modal } from '../../../lib/redux/actions/modalAction';
 import View from './View';
@@ -13,38 +13,61 @@ import Edit from './Edit';
 import Results from '../Utils/Results';
 import Searched from './Searched';
 
+
+/*
+    NOTEBOOK COMPONENT
+    Page for examining a single collection
+    Displays all the notes, links to exam mode and houses editing/creating notes
+    Active notebook comes from URL, so cross checking of URL occurs at start
+
+*/
 export default function Notebook() {
     const dispatch = useDispatch();
+    const history = useHistory();
     const { book } = useParams();
     const collection = useSelector(state => state.collection);
     const searched = useSelector(state => state.query.searched);
-    
-    
-    let notebook = false;
-    for (var name of Object.keys(collection)) {
-        if (name === book.replace(/-/g, " ")) {
-            notebook = name;
-            break;
-        }
-    }
-    
-    if (!notebook) throw new Error("URL DIDN'tMATCH THE NOTEBOOK");
-    
     const active = useSelector(state => state.active);
-    const notes = collection[notebook].notes;
-
+    
+    /*
+        Error checking URL
+        Three cases:
+        Collection : false => do nothing (dispatch hasn't resolved). Issue is resolved higher up in actions.
+        Collection : {} => throw error, there can't be any notebooks if its empty
+        Collection : {...} => check validity of notebook name from URL 
+    */
+    // Initial render, check what collection is
+    const notebook = book.replace(/-/g, " ");
     useEffect(() => {
-        if (notes === false) {
-            dispatch(load_collection(notebook, collection[notebook].id));
+        if (collection && Object.keys(collection).length === 0) {
+            console.log("Shouldn't be any dicts");
+            history.push("/uh-oh/");
+        } else {
+            if (collection && Object.keys(collection).length > 0 && !(notebook in collection)) {
+                console.log("Book not real");
+                history.push("/uh-oh/");
+            }
         }
+    }, [])
+    
+    //Checking to make sure notebook has been loaded
+    useEffect(() => {
+        if (collection && collection[notebook] && !collection[notebook].notes) 
+            dispatch(load_collection(notebook, collection[notebook].id))
     }, [collection])
-
+    
+    // React Spring slidein for the popup
     const transitions = useTransition(active.popup, null, {
         from : { opacity : 0, transform : "translateY(10rem)"},
         enter : { opacity : 1, transform : "translateY(0rem)" },
         leave : { opacity : 0, transform : "translateY(10rem)" },
     })
+    
+    //If we're still waiting for the dispatch to resolve, return nothing
+    if (!collection) return <></>
+    const notes = collection[notebook].notes;
 
+    // Sets up the modal to display a deletion check to delete a note
     function deleteNote(title, id) {
         dispatch(set_modal(
             "Are you sure?", 
@@ -54,9 +77,9 @@ export default function Notebook() {
                 return true;
             }, 
             false))
-        
     }
 
+    // Set a note as active to view it
     const select = title => {
         dispatch(clear_query()).
         then(
@@ -64,6 +87,7 @@ export default function Notebook() {
         )
     }
 
+    // Triggers a deep search on the query, to then display results
     const search = e => {
         e.preventDefault();
         const query = e.target.elements.refine.value;
