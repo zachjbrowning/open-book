@@ -30,10 +30,11 @@ export default function Landing() {
         e.preventDefault();
         dispatch(login(e.target.elements.email.value, e.target.elements.pwd.value))
         .then(res => {
-            if ('error' in res) {
-                setAlert(res.error);
-            } else {
+            if (res.success) {
                 history.push("/collections/");
+            } else {
+                if ('error' in res) setAlert(res.error);
+                else history.push('/uh-oh/');
             }
         })
 
@@ -45,11 +46,13 @@ export default function Landing() {
         if (!email) {
             dispatch(auto_login())
             .then(res => {
-                if (res) {
+                if (res.success) {
                     if (history.location.state?.prev && history.location.state.prev !== "/") history.push(history.location.state.prev);
                     else {
                         history.push("/collections/");
                     }
+                } else if (res.success === false) {
+                    history.push("/uh-oh/");
                 }
             })
         } else {
@@ -62,10 +65,11 @@ export default function Landing() {
         e.preventDefault();
         dispatch(register(e.target.elements.email.value, e.target.elements.pwd.value, e.target.elements.first.value, e.target.elements.last.value))
         .then(res=> {
-            if ('error' in res) {
-                setAlert(res.error);
+            if (res.success) {
+                history.push("/collections/");
             } else {
-                history.push('/collections/');
+                if ('error' in res) setAlert(res.error);
+                else history.push('/uh-oh/');
             }
         })
     }

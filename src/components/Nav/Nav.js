@@ -42,7 +42,7 @@ export default function Nav() {
                     </Route>
                     <Route>
                         <div className={styles.title}>
-                            <Link to="/collections">
+                            <Link to="/collections/">
                                 <h1 className={styles.brand}>Open Book</h1>
                             </Link>
                         </div>
