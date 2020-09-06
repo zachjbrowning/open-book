@@ -10,20 +10,32 @@ import { logout } from '../../../lib/redux/actions/authAction';
 import { search_query, update_query } from '../../../lib/redux/actions/queryAction';
 import Results from '../Utils/Results';
 
+
+/*
+    NAV COMPONENT
+    Displays the navbar at the top of the screen. 
+    Inserted from the  Wireframe component.
+    When in exam mode, branding is replaced by search bar
+
+*/
 export default function Nav() {
     const isDark = useSelector(state => state.night);
     const dispatch = useDispatch();
     const history = useHistory();
     const { book } = useParams();
+    
+    //Swap between light and dark mode
     const toggle = e => {
         e.checked = !isDark; 
         dispatch(set_night(!isDark));
     }
 
+    //Load login state to modal
     const do_logout = () => {
         dispatch(set_modal("Logout", "Ready to log out??", () => {dispatch(logout()).then(() => {dispatch(unset_modal()); history.push("/")});}, false));
     }
 
+    //Trigger search for when in exam mode
     const search = e => {
         e.preventDefault();
         const query = e.target.elements.examInput.value;

@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './Notebook.module.scss';
 import { useSelector, useDispatch } from 'react-redux';
 
-import Searched from './Searched';
+import Searched from '../Utils/Searched';
 import View from './View';
 import { useTransition, animated } from 'react-spring';
 

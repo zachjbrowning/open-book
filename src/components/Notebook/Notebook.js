@@ -11,7 +11,7 @@ import { set_modal } from '../../../lib/redux/actions/modalAction';
 import View from './View';
 import Edit from './Edit';
 import Results from '../Utils/Results';
-import Searched from './Searched';
+import Searched from '../Utils/Searched';
 
 
 /*
@@ -52,6 +52,8 @@ export default function Notebook() {
     useEffect(() => {
         if (collection && Object.keys(collection).length === 0) {
             history.push("/uh-oh/");
+        } else if (collection && Object.keys(collection).length > 0 && !(notebook in collection)) {
+            history.push("/uh-oh/");
         } else if (collection && collection[notebook] && !collection[notebook].notes) 
             dispatch(load_collection(notebook, collection[notebook].id))
     }, [collection])
@@ -64,11 +66,8 @@ export default function Notebook() {
     })
     
     //If we're still waiting for the dispatch to resolve, return nothing
-    if (!collection || Object.keys(collection).length === 0) return <></>
+    if (!collection || Object.keys(collection).length === 0 || !(notebook in collection)) return <></>
     
-    //define notes to simplify later on stuff
-    const notes = collection[notebook].notes;
-
     // Sets up the modal to display a deletion check to delete a note
     function deleteNote(title, id) {
         dispatch(set_modal(
@@ -79,24 +78,27 @@ export default function Notebook() {
                 return true;
             }, 
             false))
-    }
-
-    // Set a note as active to view it
-    const select = title => {
-        dispatch(clear_query()).
+        }
+        
+        // Set a note as active to view it
+        const select = title => {
+            dispatch(clear_query()).
         then(
             dispatch(set_note(title))
-        )
-    }
-
-    // Triggers a deep search on the query, to then display results
-    const search = e => {
-        e.preventDefault();
-        const query = e.target.elements.refine.value;
-        dispatch(search_query(query));
-    }
-
-    return <>
+            )
+        }
+        
+        // Triggers a deep search on the query, to then display results
+        const search = e => {
+            e.preventDefault();
+            const query = e.target.elements.refine.value;
+            dispatch(search_query(query));
+        }
+        
+        //define notes to simplify later on stuff
+        const notes = collection[notebook].notes;
+        
+        return <>
         <div className={styles.header}>
             <div className={styles.title}>
                 <h1>{book.replace("-", " ")}</h1>

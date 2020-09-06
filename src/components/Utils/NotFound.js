@@ -2,7 +2,11 @@ import React from 'react';
 import styles from './Utils.module.scss';
 import { Link } from 'react-router-dom';
 
-
+/*
+    NOTFOUND COMPONENT
+    Very basic error page. Currently used for everything but to be made more
+    personalised to certain errors.
+*/
 export default function NotFound() {
     return <>
         <h1 className={`title is-1 ${styles.ohdear}`}>Oh Dear...</h1>

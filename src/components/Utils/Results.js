@@ -5,14 +5,25 @@ import { useSelector, useDispatch } from 'react-redux';
 import { clear_query } from '../../../lib/redux/actions/queryAction';
 import { set_note } from '../../../lib/redux/actions/activeAction';
 
+
+/*
+    RESULTS COMPONENT
+    Used to display the results as they are updated from the query.
+    When there are no results, is hidden below search bar. 
+    Is mounted from wherever the search bar is mounted.
+*/
 export default function Results(props) {
     const query = useSelector(state => state.query)
     const dispatch = useDispatch();
 
+    // Query results and searched results use the same object,
+    // so if it's being used for a search, dont display anything
     if (query.searched) {
         return <></>
     }
 
+
+    // Select note clicked on as the active note
     function select(title) {
         dispatch(clear_query());
         document.getElementById(props.inputId).value = "";

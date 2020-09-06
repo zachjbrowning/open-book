@@ -3,12 +3,20 @@ import styles from "./Utils.module.scss";
 
 import { useDispatch } from "react-redux";
 
+
+/* 
+  MODAL COMPONENT
+  Currently not used, as main modal component is reused. This util 
+  component could theoretically used to make a modal for any particular
+  use.
+*/
 export default function Modal(props) {
   const dispatch = useDispatch();
   function toggle() {
     document.getElementById(props.id).classList.toggle("is-active");
   }
 
+  //attempt to submit modal
   function sendit() {
     toggle();
     if (props.func) {

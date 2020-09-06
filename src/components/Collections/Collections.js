@@ -7,14 +7,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { set_notebook } from '../../../lib/redux/actions/activeAction';
 import { new_coll, del_coll } from '../../../lib/redux/actions/collectionAction';
 import { set_modal, set_warning } from '../../../lib/redux/actions/modalAction';
-
-
+/*
+    COLLECTIONS COMPONENT
+    Is the landing page used once you are logged in.
+    Displays the collections you own and allows you to manage them.
+    Is mounted from the Wireframe component.
+*/
 export default function Notebooks() {
     const dispatch = useDispatch();
     const collection = useSelector(state => state.collection);
     const auth = useSelector(state => state.auth);
 
-
+    // Load modal with delete collection q
     const delNotebook = (id, title) => {
         dispatch(set_modal(
             "Are you sure?", 
@@ -26,8 +30,7 @@ export default function Notebooks() {
             false))
     }
 
-    
-
+    // load modal with form to create modal
     const addNotebook = () => {
         dispatch(set_modal(
             "Create collection",

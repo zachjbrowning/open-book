@@ -1,10 +1,10 @@
 import React from 'react'
-import styles from './Notebook.module.scss';
+import styles from './Utils.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { set_note } from '../../../lib/redux/actions/activeAction';
 import { clear_query } from '../../../lib/redux/actions/queryAction';
-import { close } from '../Utils/Icon';
+import { close } from './Icon';
 
 /*
     SEARCHED COMPONENT

@@ -6,7 +6,13 @@ import { useTransition, animated } from 'react-spring';
 
 import { auto_login } from '../../../lib/redux/actions/authAction';
 import { login, register } from '../../../lib/redux/actions/authAction';
+/*
+    LANDING COMPONENT
+    Is the login page for the site. Toggles between home,
+    login and register.
+    Mounted from the Wireframe Component. 
 
+*/
 export default function Landing() {
     const dispatch = useDispatch();
     const email = useSelector(state => state.auth.email);
@@ -20,12 +26,13 @@ export default function Landing() {
         leave: { transform: 'translateY(-20rem)', opacity: 0 },
     })
 
-
+    // Swap between which section is showings
     const changeState = next => {
         setAlert(false);
         setState(next);
     }
     
+    // Attempt to log in
     const do_login = e => {
         e.preventDefault();
         dispatch(login(e.target.elements.email.value, e.target.elements.pwd.value))
@@ -40,6 +47,21 @@ export default function Landing() {
 
     }
 
+    // Attempt to register user
+    const do_register = e => {
+        e.preventDefault();
+        dispatch(register(e.target.elements.email.value, e.target.elements.pwd.value, e.target.elements.first.value, e.target.elements.last.value))
+        .then(res=> {
+            if (res.success) {
+                history.push("/collections/");
+            } else {
+                if ('error' in res) setAlert(res.error);
+                else history.push('/uh-oh/');
+            }
+        })
+    }
+    
+    // When component is mounted, attempt to auto login user from localstate
     useEffect(() => {
         let next = false;
         if (history.location.state) next = history.location.state;
@@ -61,24 +83,13 @@ export default function Landing() {
         }
     }, [])
 
-    const do_register = e => {
-        e.preventDefault();
-        dispatch(register(e.target.elements.email.value, e.target.elements.pwd.value, e.target.elements.first.value, e.target.elements.last.value))
-        .then(res=> {
-            if (res.success) {
-                history.push("/collections/");
-            } else {
-                if ('error' in res) setAlert(res.error);
-                else history.push('/uh-oh/');
-            }
-        })
-    }
 
+    // Predefine different possible sections. This is to make react-spring
+    // easier to use later on
     const warn = alert ? <div className={`notification is-primary ${styles.alert}`}>
         <button className="delete" onClick={() => setAlert(false)} />
         {alert}
     </div> : ""
-
     const sections = [
         ({ style }) => <animated.div className={styles.movable} style={style}>
             <div className={`container ${styles.center}`}>

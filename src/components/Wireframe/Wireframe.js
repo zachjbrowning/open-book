@@ -7,6 +7,7 @@ import { set_night } from '../../../lib/redux/actions/nightAction';
 import { Night } from '../../../lib/utils/localstorage';
 
 import Modal from '../Modal/Modal';
+//LAZY LOAD MOST OF THE COMPONENTS
 const Landing = lazy(() => import('../Landing/Landing'));
 const Nav = lazy(() => import('../Nav/Nav'));
 const Collections = lazy(() => import('../Collections/Collections'));
@@ -14,15 +15,22 @@ const Notebook = lazy(() => import('../Notebook/Notebook'));
 const Exam = lazy(() => import('../Notebook/Exam'));
 const NotFound = lazy(() => import('../Utils/NotFound'));
 
+/*
+    WIREFRAME COMPONENT
+    Is what is directly rendered from the root element. 
+    Mainly a bunch of routes that then lazy load the necessary
+    component. 
+*/
 export default function Wireframe() {
     const dispatch = useDispatch();    
     const history = useHistory();
     const email = useSelector(state => state.auth.email);
     const night = useSelector(state => state.night);
     
-
+    // On inital render, redirect if need to login first
+    // Ensure night mode status matches localstate
     useEffect(() => {
-        //ONLY WANT TO REDIRECT IF ITS A RESTRICTED PAGE...
+        //TODO : only redirect if it's a page that requires login
         if (!email) {
             history.push("/", { prev : history.location.pathname})
         }
