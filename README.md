@@ -18,4 +18,22 @@ On top of this, to get everything running smoothly I used:
   - 🐍 Django to work as a backend and manage the database
   - ♨️ React spring to help with frontend animations
 
-Additional information on the [backend and api](Backend_Api.md) and [frontend](Frontend.md) can be found in the supporting documentation.
+
+## File overview
+ - /api/ : Houses the django backend
+ - /lib/ : All utility functions, the api used by the frontend, redux actions reducers and action types, localstorage management.
+ - /public/ : Where public files are stored, e.g. favicon
+ - /src/ 
+   - /index.html : entry point for webapp
+   - /index.js : binds react to the html entry point
+   - /components/ : all of the react components used in the interface!
+
+Additional information on the [backend and api](Backend_API.md) and [frontend](Frontend.md) can be found in the supporting documentation.
+
+## What's to come
+The thing that I've enjoyed most about this project is it's basis in a real problem that I wanted to solve. And because of that, I've got a whole bunch of things I would like to add to the interface in the future! Stay tuned!!
+ - Better text processing for the notes - support for a more comprehensive text editor that would include things like latex, bold + italics, etc.
+ - The capacity to convert a collection of notes into a pdf to be used in an in person openbook exam
+ - In line with the pdf generation, an index/glossary generation to speed up the lookup of notes in an exam environment
+ - A flashcard feature - using the notes stored to help study for the exam, as well as to aid during the exam! (Something that I've been told by numerous people would be something that medical students would appreciate greatly for instance)
+ - Better account management
