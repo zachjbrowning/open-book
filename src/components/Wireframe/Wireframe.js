@@ -55,7 +55,7 @@ export default function Wireframe() {
                 <Route>
                     <main className={styles.constrict}>
                         <Route exact path="/collections/" component={Collections} />
-                        <Route exact path="/collections/:book/exam-mode" component={Exam} />
+                        <Route exact path="/collections/:book/exam-mode" component={Notebook} />
                         <Route exact path="/collections/:book/" component={Notebook} />
                     </main>
                     <Switch>

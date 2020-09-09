@@ -28,7 +28,6 @@ $text: white;
 // ==== Bulma globals ==== //
 $link: $primary;
 $info: $dark;
-$body-background-color: #4B4D58;
 $family-primary: $font-primary-serif;
 $family-secondary: $font-primary-sans-serif;
 
@@ -42,9 +41,17 @@ $family-secondary: $font-primary-sans-serif;
 @import "../node_modules/bulma/sass/layout/_all";
 @import "../node_modules/bulma/sass/elements/button.sass";
 
-html, body, main, #root {
+html, body {
   width:100%;
   height:100%;
+}
+main, #root {
+  width:100%;
+  min-height:100%;
+  background-color: var(--background);
+}
+
+html {
   background-color:var(--background);
 }
 

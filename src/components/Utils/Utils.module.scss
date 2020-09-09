@@ -47,6 +47,7 @@
     color:var(--text);
     padding-top:2rem;
     position: relative;
+    padding-bottom:3rem;
     h5 {
         font-size:1.5rem;
         font-weight:700;
@@ -75,6 +76,9 @@
         }
         .word {
             font-family : "Roboto Mono";
+            span {
+                color:var(--primary);
+            }
         }
         &.colored {
             background-color:var(--background-accent);

@@ -37,3 +37,4 @@ The thing that I've enjoyed most about this project is it's basis in a real prob
  - In line with the pdf generation, an index/glossary generation to speed up the lookup of notes in an exam environment
  - A flashcard feature - using the notes stored to help study for the exam, as well as to aid during the exam! (Something that I've been told by numerous people would be something that medical students would appreciate greatly for instance)
  - Better account management
+ - Better site navigation - potentially have breadcrumbs appear in top left

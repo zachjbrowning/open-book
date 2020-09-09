@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .serializers import *
 from .models import *
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -10,7 +10,11 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
 from rest_framework import status
 
-# Create your views here.
+
+
+def index(request):
+    return render(request, "dist/index.html")
+
 # Custom token authentication to allow other info to be returned
 class CustomObtainAuthToken(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
@@ -37,6 +41,12 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response(serializer.data)
         else:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+    def get_permissions(self):
+        if self.action != "list":
+            self.permission_classes = [IsAdminUser]
+        return super(UserViewSet, self).get_permissions()
+
     
 
 class UserCreate(generics.CreateAPIView):
@@ -123,6 +133,16 @@ class CollectionViewSet(viewsets.ModelViewSet):
         else:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
+    def destroy(self, request, pk=None, *args, **kwargs):
+        if request.user.is_authenticated:
+            coll = get_object_or_404(Collection, pk=pk)
+            coll.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+
+
 
 class NoteViewSet(viewsets.ModelViewSet):
     queryset = Note.objects.all()
@@ -174,6 +194,14 @@ class NoteViewSet(viewsets.ModelViewSet):
             return super(NoteViewSet, self).update(request, *args, **kwargs)
         else:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
+    def destroy(self, request, pk=None, *args, **kwargs):
+        if request.user.is_authenticated:
+            note = get_object_or_404(Note, pk=pk)
+            note.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 
             
@@ -217,4 +245,8 @@ class KeywordViewSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
-    
+
+    def get_permissions(self):
+        if self.action == "destroy" or self.action == "partial_update" :
+            self.permission_classes = [IsAdminUser]
+        return super(NoteViewSet, self).get_permissions()  

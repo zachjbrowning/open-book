@@ -37,7 +37,7 @@ export default function Searched(props) {
             {
                 query.results.map((val, idx) => <div onClick={() => select(val.title)} key={idx} className={`${styles.found} ${idx % 2 === 0 ? styles.colored : ""}`}>
                     <p className={styles.head}>{val.title.toUpperCase()}</p>
-                    <p className={styles.word}>{val.words}</p>
+                    <p className={styles.word}>{val.words[0]}<span>{val.words[1]}</span>{val.words[2]}</p>
                 </div>)
             }
         </div>

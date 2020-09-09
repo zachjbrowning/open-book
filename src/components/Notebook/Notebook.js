@@ -28,7 +28,7 @@ export default function Notebook() {
     const collection = useSelector(state => state.collection);
     const searched = useSelector(state => state.query.searched);
     const active = useSelector(state => state.active);
-    
+    const exam = book !== "exam-mode" && history.location.pathname.indexOf("exam-mode") !== -1;
     /*
         Error checking URL
         Three cases:
@@ -77,39 +77,43 @@ export default function Notebook() {
                 dispatch(del_note(active.notebook, id, title));
                 return true;
             }, 
-            false))
-        }
-        
-        // Set a note as active to view it
-        const select = title => {
-            dispatch(clear_query()).
+            false
+        ))
+    }
+    
+    // Set a note as active to view it
+    const select = title => {
+        dispatch(clear_query()).
         then(
             dispatch(set_note(title))
-            )
-        }
-        
-        // Triggers a deep search on the query, to then display results
-        const search = e => {
-            e.preventDefault();
-            const query = e.target.elements.refine.value;
-            dispatch(search_query(query));
-        }
-        
-        //define notes to simplify later on stuff
-        const notes = collection[notebook].notes;
-        
-        return <>
-        <div className={styles.header}>
-            <div className={styles.title}>
-                <h1>{book.replace("-", " ")}</h1>
+        )
+    }
+    
+    // Triggers a deep search on the query, to then display results
+    const search = e => {
+        e.preventDefault();
+        const query = e.target.elements.refine.value;
+        dispatch(search_query(query));
+    }
+    
+    //define notes to simplify later on stuff
+    const notes = collection[notebook].notes;
+    
+    return <>
+        {
+            exam ? "" :
+            <div className={styles.header}>
+                <div className={styles.title}>
+                    <h1>{book.replace("-", " ")}</h1>
+                </div>
+                <Link to={"exam-mode"}>
+                    <button className="button is-primary">Exam mode</button>
+                </Link>
             </div>
-            <Link to={"exam-mode"}>
-                <button className="button is-primary">Exam mode</button>
-            </Link>
-        </div>
+        }
         { 
             searched ? <Searched /> : <> 
-                {!active.note && !active.edit ? 
+                {!active.note && !active.edit && !exam ? 
                 <>
                     <form onSubmit={search} className={styles.search}>
                         <div className="field is-grouped">
@@ -149,10 +153,10 @@ export default function Notebook() {
         }
         {
             transitions.map(({ item, key, props }) => 
-            item && <animated.div id="BRUHH" key={key} style={props} className={styles.slideup}>
+            item && <animated.div key={key} style={props} className={styles.slideup}>
                 {
-                    active.edit ? <Edit />
-                    : <View title={active.note} note={collection[active.notebook].notes[active.note]}/>
+                    active.edit && !exam ? <Edit />
+                    : <View title={active.note} note={collection[active.notebook].notes[active.note]} restricted={exam}/>
                 }
             </animated.div>
         )}

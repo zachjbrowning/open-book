@@ -14,6 +14,7 @@ urlpatterns = [
     path('user/login/', CustomObtainAuthToken.as_view()),
     path('user/register/', UserCreate.as_view()),
     path('user/logout/', UserLogout.as_view()),
+    path('api-token-auth/', include('rest_framework.urls', namespace='api-token-auth')),
+    path("", index, name="index"),
     path('', include(router.urls)),
-    path('api-token-auth/', include('rest_framework.urls', namespace='api-token-auth'))
 ]
