@@ -35,7 +35,7 @@ export default function Wireframe() {
             history.push("/", { prev : history.location.pathname})
         }
         let true_night = Night.getNight();
-        if (true_night !== null && true_night !== night) {
+        if (true_night === null || true_night !== night) {
             dispatch(set_night(true_night === "true"));
         }
     }, [])

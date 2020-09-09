@@ -12,8 +12,7 @@ from rest_framework import status
 
 
 
-def index(request):
-    return render(request, "dist/index.html")
+
 
 # Custom token authentication to allow other info to be returned
 class CustomObtainAuthToken(ObtainAuthToken):
