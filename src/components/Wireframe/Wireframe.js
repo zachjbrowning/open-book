@@ -7,7 +7,6 @@ import { set_night } from '../../../lib/redux/actions/nightAction';
 import { Night } from '../../../lib/utils/localstorage';
 
 import Modal from '../Modal/Modal';
-//LAZY LOAD MOST OF THE COMPONENTS
 import Landing from '../Landing/Landing';
 import Nav from '../Nav/Nav';
 import Collections from '../Collections/Collections';

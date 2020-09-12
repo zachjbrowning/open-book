@@ -27,8 +27,8 @@ module.exports = {
       path: path.resolve(__dirname, 'dist'),
       filename: "[name].js",
       chunkFilename: "[id]-[chunkhash].js",
-      //publicPath: '/' //DEV
-      publicPath: '/static/' //PRODUCTION
+      publicPath: '/' //DEV
+      //publicPath: '/static/' //PRODUCTION
     },
     module: {
     rules: [

@@ -6,6 +6,11 @@ import "../styles/styles.scss"
 import { Provider } from "react-redux";
 import store from "../lib/redux/store";
 
+// Browser router : enable react router dom
+// Provider : include Redux state management
+// Wireframe : main distribution component
+
+
 ReactDom.render(<BrowserRouter>
         <Provider store={store}>
             <Wireframe/>
