@@ -4,7 +4,7 @@ import { Link, useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTransition, animated } from 'react-spring';
 
-import { set_note, new_note, unset_note } from '../../../lib/redux/actions/activeAction';
+import { set_note, new_note, unset_note, set_notebook } from '../../../lib/redux/actions/activeAction';
 import { del_note, load_collection, load_all } from '../../../lib/redux/actions/collectionAction';
 import { update_query, search_query, clear_query } from '../../../lib/redux/actions/queryAction';
 import { set_modal } from '../../../lib/redux/actions/modalAction';
@@ -55,7 +55,9 @@ export default function Notebook() {
         } else if (collection && Object.keys(collection).length > 0 && !(notebook in collection)) {
             history.push("/uh-oh/");
         } else if (collection && collection[notebook] && !collection[notebook].notes) 
-            dispatch(load_collection(notebook, collection[notebook].id))
+            dispatch(set_notebook(notebook)).then(() => {
+                dispatch(load_collection(notebook, collection[notebook].id))
+            })
     }, [collection])
     
     // React Spring slidein for the popup
@@ -101,15 +103,19 @@ export default function Notebook() {
     
     return <>
         {
-            exam ? "" :
-            <div className={styles.header}>
-                <div className={styles.title}>
-                    <h1>{book.replace("-", " ")}</h1>
+            exam ? "" : <>
+                <div className={styles.back}>
+                    <Link to={"/collections/"}>{"< back to collections"}</Link>
                 </div>
-                <Link to={"exam-mode"}>
-                    <button className="button is-primary">Exam mode</button>
-                </Link>
-            </div>
+                <div className={styles.header}>
+                    <div className={styles.title}>
+                        <h1>{book.replace("-", " ")}</h1>
+                    </div>
+                    <Link to={"exam-mode"}>
+                        <button className="button is-primary">Exam mode</button>
+                    </Link>
+                </div>
+            </>
         }
         { 
             searched ? <Searched /> : <> 
@@ -156,7 +162,7 @@ export default function Notebook() {
             item && <animated.div key={key} style={props} className={styles.slideup}>
                 {
                     active.edit && !exam ? <Edit />
-                    : <View title={active.note} note={collection[active.notebook].notes[active.note]} restricted={exam}/>
+                    : <View title={active.note} note={collection[active.notebook].notes[active.note]} restricted={exam}/> //FAILED HERE
                 }
             </animated.div>
         )}

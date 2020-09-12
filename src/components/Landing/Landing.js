@@ -22,9 +22,9 @@ export default function Landing() {
     const history = useHistory();
     
     const transitions = useTransition(state, p => p, {
-        from: { transform: 'translateY(20rem)', opacity: 0 },
+        from: { transform: 'translateY(0rem)', opacity: 1 },
         enter: { transform: 'translateY(0rem)', opacity: 1 },
-        leave: { transform: 'translateY(-20rem)', opacity: 0 },
+        leave: { transform: 'translateY(0rem)', opacity: 1 },
     })
 
     // Swap between which section is showings
