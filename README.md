@@ -30,6 +30,14 @@ On top of this, to get everything running smoothly I used:
 
 Additional information on the [backend and api](Backend_API.md) and [frontend](Frontend.md) can be found in the supporting documentation.
 
+## Serving up the project
+Given this project is being run off a VPS, a few small steps need to be taken to switch from dev to production:
+ - Uncomment the STATIC_ROOT at the bottom of /api/settings.py
+ - Set debug to FALSE in /api/settings.py
+ - Swap the public path from '/' to '/static/' in webpack.config.js
+ - Ensure whatever server setup you are using (I am using nginx) is serving up the static files for you
+ - Serve up the project from django!! I am using gunicorn ([Green Unicorn](https://gunicorn.org/)) because it is much more scalable than just django but do what you will. Running serve.sh will start it using gunicorn for you.
+
 ## What's to come
 The thing that I've enjoyed most about this project is it's basis in a real problem that I wanted to solve. And because of that, I've got a whole bunch of things I would like to add to the interface in the future! Stay tuned!!
  - Better text processing for the notes - support for a more comprehensive text editor that would include things like latex, bold + italics, etc.
@@ -38,3 +46,4 @@ The thing that I've enjoyed most about this project is it's basis in a real prob
  - A flashcard feature - using the notes stored to help study for the exam, as well as to aid during the exam! (Something that I've been told by numerous people would be something that medical students would appreciate greatly for instance)
  - Better account management
  - Better site navigation - potentially have breadcrumbs appear in top left
+

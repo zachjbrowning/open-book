@@ -1,6 +1,6 @@
 import React, { useEffect, Suspense, lazy }  from 'react';
 import styles from './Wireframe.module.scss';
-import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
+import { Switch, Route, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { set_night } from '../../../lib/redux/actions/nightAction';
@@ -8,12 +8,16 @@ import { Night } from '../../../lib/utils/localstorage';
 
 import Modal from '../Modal/Modal';
 //LAZY LOAD MOST OF THE COMPONENTS
-const Landing = lazy(() => import('../Landing/Landing'));
-const Nav = lazy(() => import('../Nav/Nav'));
-const Collections = lazy(() => import('../Collections/Collections'));
-const Notebook = lazy(() => import('../Notebook/Notebook'));
-const Exam = lazy(() => import('../Notebook/Exam'));
-const NotFound = lazy(() => import('../Utils/NotFound'));
+import Landing from '../Landing/Landing';
+import Nav from '../Nav/Nav';
+import Collections from '../Collections/Collections';
+import Notebook from '../Notebook/Notebook';
+import NotFound from '../Utils/NotFound';
+//const Landing = lazy(() => import('../Landing/Landing'));
+//const Nav = lazy(() => import('../Nav/Nav'));
+//const Collections = lazy(() => import('../Collections/Collections'));
+//const Notebook = lazy(() => import('../Notebook/Notebook'));
+//const NotFound = lazy(() => import('../Utils/NotFound'));
 
 /*
     WIREFRAME COMPONENT

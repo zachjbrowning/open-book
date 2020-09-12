@@ -18,6 +18,7 @@ export default function Landing() {
     const email = useSelector(state => state.auth.email);
     const [state, setState] = useState(0);
     const [alert, setAlert] = useState("haha ayeee");
+    const [loading, setLoading] = useState(false);
     const history = useHistory();
     
     const transitions = useTransition(state, p => p, {
@@ -35,8 +36,10 @@ export default function Landing() {
     // Attempt to log in
     const do_login = e => {
         e.preventDefault();
+        setLoading(true);
         dispatch(login(e.target.elements.email.value, e.target.elements.pwd.value))
         .then(res => {
+            setLoading(false);
             if (res.success) {
                 history.push("/collections/");
             } else {
@@ -50,8 +53,10 @@ export default function Landing() {
     // Attempt to register user
     const do_register = e => {
         e.preventDefault();
+        setLoading(true);
         dispatch(register(e.target.elements.email.value, e.target.elements.pwd.value, e.target.elements.first.value, e.target.elements.last.value))
         .then(res=> {
+            setLoading(false);
             if (res.success) {
                 history.push("/collections/");
             } else {
@@ -123,15 +128,25 @@ export default function Landing() {
                                 <input required={true} type="password" className="input" placeholder="pwd" name="pwd" />
                             </div>
                         </div>
-                        <div className="field is-grouped">
-                            <div className="control">
-                                <button type="submit" className="button is-primary">Login</button>
+                        {
+                            loading ? 
+                            <div className={`field ${styles.prog}`}>
+                                <div className="control">
+                                    <progress className="progress is-small is-primary" max="100">50</progress>
+                                </div>
                             </div>
-                            <div className="control">
-                                <button onClick={e => {e.preventDefault(); changeState(0)}} className="button">Cancel</button>
-                            </div>
-                        </div>
-                        <p>Don't have an account? <a onClick={() => changeState(2)}>Register</a></p>
+                            : <>
+                                <div className="field is-grouped">
+                                    <div className="control">
+                                        <button type="submit" className="button is-primary">Login</button>
+                                    </div>
+                                    <div className="control">
+                                        <button onClick={e => {e.preventDefault(); changeState(0)}} className="button">Cancel</button>
+                                    </div>
+                                </div>
+                                <p>Don't have an account? <a onClick={() => changeState(2)}>Register</a></p>
+                            </>
+                        }
                     </form>
                 </div>
             </div>
@@ -161,15 +176,25 @@ export default function Landing() {
                                 <input required={true} type="password" className="input" placeholder="pwd" name="pwd" />
                             </div>
                         </div>
-                        <div className="field is-grouped">
-                            <div className="control">
-                                <button type="submit" className="button is-primary">Register</button>
+                        {
+                            loading ? 
+                            <div className="field">
+                                <div className="control">
+                                    <progress className="progress is-small is-primary" max="100">50</progress>
+                                </div>
                             </div>
-                            <div className="control">
-                                <button onClick={e => {e.preventDefault(); changeState(0)}} className="button">Cancel</button>
-                            </div>
-                        </div>
-                        <p>Already have an account? <a onClick={() => changeState(1)}>login</a></p>
+                            : <>
+                                <div className="field is-grouped">
+                                    <div className="control">
+                                        <button type="submit" className="button is-primary">Register</button>
+                                    </div>
+                                    <div className="control">
+                                        <button onClick={e => {e.preventDefault(); changeState(0)}} className="button">Cancel</button>
+                                    </div>
+                                </div>
+                                <p>Already have an account? <a onClick={() => changeState(1)}>login</a></p>
+                            </>
+                        }
                     </form>
                 </div>
             </div>

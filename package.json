@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server/index.js",
-    "build": "rm -r dist; webpack --mode production; cp static/favicon.ico dist/favicon.ico",
+    "build": "rm -r dist; webpack --mode production; cp static/favicon.ico dist/favicon.ico", 
     "dev": "webpack-dev-server --open --mode development"
   },
   "repository": {
