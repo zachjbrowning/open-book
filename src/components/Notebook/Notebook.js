@@ -79,7 +79,11 @@ export default function Notebook() {
                 dispatch(del_note(active.notebook, id, title));
                 return true;
             }, 
-            false
+            false,
+            {
+                yes : "Delete",
+                no : "Cancel",
+            }
         ))
     }
     

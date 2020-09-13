@@ -17,6 +17,8 @@ import { unset_modal, unset_warning } from '../../../lib/redux/actions/modalActi
      - func : funciton that is executed when modal is submitted.
         Func returns true to close modal, false to keep open. Inside
         this func, warning could be set, info retrieved from form etc.
+     - buttons : yes : word for the yes button 
+                  no : word for the no button
 
 */
 export default function Modal() {
@@ -52,11 +54,15 @@ export default function Modal() {
         }
         <div className={`field is-grouped ${styles.lower}`}>
             <div className="control">
-                <button onClick={sendIt} className="button is-primary">Ok</button>
+                <button onClick={sendIt} className="button is-primary">{modal.buttons?.yes ? modal.buttons.yes : "Ok"}</button>
             </div>
-            <div className="control">
-                <button onClick={toggle} className="button is-light is-primary">Cancel</button>
-            </div>
+            {
+                !modal.buttons || modal.buttons?.no ? 
+                <div className="control">
+                    <button onClick={toggle} className="button is-light is-primary">{modal.buttons?.no ? modal.buttons.no : "Cancel"}</button>
+                </div>
+                : ""
+            }
         </div>
       </div>
       <button className="modal-close is-large" aria-label="close" onClick={toggle} />

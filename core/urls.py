@@ -14,6 +14,7 @@ urlpatterns = [
     path('api/user/login/', CustomObtainAuthToken.as_view()),
     path('api/user/register/', UserCreate.as_view()),
     path('api/user/logout/', UserLogout.as_view()),
+    path('api/user/pwd-reset/', PwdReset.as_view({'put' : 'reset'})),
     path('api/api-token-auth/', include('rest_framework.urls', namespace='api-token-auth')),
     path('', include(router.urls)),
 ]

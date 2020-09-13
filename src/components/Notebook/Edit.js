@@ -27,18 +27,28 @@ export default function Edit(props) {
     */
     const addCat = e => {
         e.preventDefault();
-        if (e.target.elements.keyword.value === "") return;
+        let splits = e.target.elements.keyword.value.toLowerCase().split(' ');
+        console.log(splits);
+        let new_word = "";
+        for (var word of splits) {
+            if (word !== "") {
+                if (new_word !== "") {
+                    new_word = new_word.concat(" ").concat(word); 
+                } else new_word = word;
+            }
+        }
+        if (new_word === "") return;
+        e.target.elements.keyword.value = "";
         if (active.new ) {
-            dispatch(new_cat(e.target.elements.keyword.value.toLowerCase()));
+            dispatch(new_cat(new_word));
         } else {
             dispatch(new_cat_collection(
                 active.notebook, 
                 collection[active.notebook].notes[active.note].id,
                 active.note, 
-                e.target.elements.keyword.value.toLowerCase()))
+                new_word))
         }
 
-        e.target.elements.keyword.value = "";
     }
 
 

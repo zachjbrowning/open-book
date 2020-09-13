@@ -6,6 +6,8 @@ import { useTransition, animated } from 'react-spring';
 
 import { auto_login } from '../../../lib/redux/actions/authAction';
 import { login, register } from '../../../lib/redux/actions/authAction';
+import { set_modal } from '../../../lib/redux/actions/modalAction';
+import PwdAPI from '../../../lib/api/pwd';
 /*
     LANDING COMPONENT
     Is the login page for the site. Toggles between home,
@@ -59,12 +61,66 @@ export default function Landing() {
             setLoading(false);
             if (res.success) {
                 history.push("/collections/");
+                dispatch(set_modal(
+                    "Hello stranger!!",
+                    <p>
+                        First time?? Feel free to watch a quick <a>tutorial video</a> to familiarise yourself with the interface.
+                    </p>,
+                    () => true,
+                    false,
+                    {
+                        yes : "Sounds good!",
+                        no : false,
+                    }
+                ))
             } else {
                 if ('error' in res) setAlert(res.error);
                 else history.push('/uh-oh/');
             }
         })
     }
+
+    // Show forgot password modal
+    const forgot_pwd = () => {
+        dispatch(set_modal(
+            "Password reset",
+            <>
+                Please type your email here to start the reset process.
+                <br/>
+                <div className="field">
+                    <div className="control">
+                        <input id="email-reset" placeholder="email" className="input"/>
+                    </div>
+                </div>
+            </>,
+            () => {
+                let try_email = document.getElementById("email-reset").value
+                if (try_email) {
+                    PwdAPI.request(try_email)
+                    .then(() => {
+                        dispatch(set_modal(
+                            "Password reset",
+                            "If your email address was valid, you will recieve an email. Please check your spam folder.",
+                            () => true,
+                            false,
+                            {
+                                yes : "Ok",
+                                no : false,
+                            }
+
+                        ));
+                    })
+
+                }
+                return false;
+            },
+            false,
+            {
+                yes : "Submit",
+                no : "Cancel",
+            }
+        ))
+    } 
     
     // When component is mounted, attempt to auto login user from localstate
     useEffect(() => {
@@ -144,6 +200,7 @@ export default function Landing() {
                                         <button onClick={e => {e.preventDefault(); changeState(0)}} className="button">Cancel</button>
                                     </div>
                                 </div>
+                                <p>Oops... <a onClick={forgot_pwd}>I forgot my password</a>...</p>
                                 <p>Don't have an account? <a onClick={() => changeState(2)}>Register</a></p>
                             </>
                         }

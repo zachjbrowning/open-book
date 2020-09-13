@@ -1,0 +1,7 @@
+Hi {{ user.first_name }},
+
+We've recieved a request to reset your password. 
+
+Please follow this URL to start resetting your password. 
+
+From the Openbook team.

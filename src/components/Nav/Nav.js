@@ -32,7 +32,15 @@ export default function Nav() {
 
     //Load login state to modal
     const do_logout = () => {
-        dispatch(set_modal("Logout", "Ready to log out??", () => {dispatch(logout()).then(() => {dispatch(unset_modal()); history.push("/")});}, false));
+        dispatch(set_modal(
+            "Logout", 
+            "Ready to log out??", 
+            () => {dispatch(logout()).then(() => {dispatch(unset_modal()); history.push("/")});}, 
+            false,
+            {
+                yes : "Logout",
+                no : "Cancel",
+            }));
     }
 
     //Trigger search for when in exam mode

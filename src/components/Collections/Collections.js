@@ -27,7 +27,11 @@ export default function Notebooks() {
                 dispatch(del_coll(id, title));
                 return true;
             }, 
-            false))
+            false,
+            {
+                yes : "Delete",
+                no : "Cancel"
+            }))
     }
 
     // load modal with form to create modal
@@ -56,7 +60,11 @@ export default function Notebooks() {
                     return true;
                 }
             },
-            false
+            false,
+            {
+                yes : "Create",
+                no : "Cancel",
+            }
         ));
     }
     

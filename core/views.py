@@ -9,8 +9,23 @@ from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
 from rest_framework import status
+from .sender import sender
 
 
+#This is for the password reset thingo
+class PwdReset(viewsets.GenericViewSet):
+    def reset(self, request, *args, **kwargs):
+        email = request.data["email"] 
+        print(email)
+        if email:
+            users = CustomUser.objects.filter(email=email)
+            if len(users) != 1: return Response(data="NONE", status=status.HTTP_200_OK)
+            the_user = users[0]
+            print(the_user.first_name)
+            sender([email], 'pwd-reset-subject.txt', 'pwd-reset-content.txt', { "user"  : the_user})
+            return Response(status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 

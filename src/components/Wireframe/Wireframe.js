@@ -65,10 +65,9 @@ export default function Wireframe() {
                         <Route exact path="/collections/:book/exam-mode" component={Nav} />
                         <Route component={Nav} />
                     </Switch>
-                    <Modal />
                 </Route>
             </Switch>
-
+            <Modal />
         </Suspense>
         
 
