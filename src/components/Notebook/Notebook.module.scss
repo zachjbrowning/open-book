@@ -18,6 +18,7 @@
     .wider {
         min-width:50%;
         input {
+            
             width:100%;
         }
     }
@@ -98,3 +99,7 @@
 }
 
 
+.higherup {
+    top:7rem !important;
+    min-height:calc(100vh - 7rem) !important;
+}

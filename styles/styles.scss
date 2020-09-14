@@ -61,3 +61,6 @@ a {
     color : var(--text);
   }
 }
+::placeholder {
+  color:var(--title) !important;
+}

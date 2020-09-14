@@ -7,7 +7,7 @@ import { useTransition, animated } from 'react-spring';
 import { set_note, new_note, unset_note, set_notebook } from '../../../lib/redux/actions/activeAction';
 import { del_note, load_collection, load_all } from '../../../lib/redux/actions/collectionAction';
 import { update_query, search_query, clear_query } from '../../../lib/redux/actions/queryAction';
-import { set_modal } from '../../../lib/redux/actions/modalAction';
+import { set_modal, unset_modal } from '../../../lib/redux/actions/modalAction';
 import View from './View';
 import Edit from './Edit';
 import Results from '../Utils/Results';
@@ -68,7 +68,7 @@ export default function Notebook() {
     })
     
     //If we're still waiting for the dispatch to resolve, return nothing
-    if (!collection || Object.keys(collection).length === 0 || !(notebook in collection)) return <>oops</>
+    if (!collection || Object.keys(collection).length === 0 || !(notebook in collection)) return <></>
     
     // Sets up the modal to display a deletion check to delete a note
     function deleteNote(title, id) {
@@ -115,7 +115,7 @@ export default function Notebook() {
                     <div className={styles.title}>
                         <h1>{book.replace("-", " ")}</h1>
                     </div>
-                    <Link to={"exam-mode"}>
+                    <Link to={"exam-mode"} onClick={() => dispatch(unset_note())}>
                         <button className="button is-primary">Exam mode</button>
                     </Link>
                 </div>
@@ -163,7 +163,7 @@ export default function Notebook() {
         }
         {
             transitions.map(({ item, key, props }) => 
-            item && <animated.div key={key} style={props} className={styles.slideup}>
+            item && <animated.div key={key} style={props} className={`${styles.slideup} ${exam ? styles.higherup : ""}`}>
                 {
                     active.edit && !exam ? <Edit />
                     : <View title={active.note} note={collection[active.notebook].notes[active.note]} restricted={exam}/> //FAILED HERE
