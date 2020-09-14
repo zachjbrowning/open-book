@@ -4,8 +4,8 @@ import { Link, useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTransition, animated } from 'react-spring';
 
-import { set_note, new_note, unset_note, set_notebook } from '../../../lib/redux/actions/activeAction';
-import { del_note, load_collection, load_all } from '../../../lib/redux/actions/collectionAction';
+import { set_note, new_note, unset_note, set_notebook, set_edit_note } from '../../../lib/redux/actions/activeAction';
+import { del_note, load_collection, load_all, edit_note } from '../../../lib/redux/actions/collectionAction';
 import { update_query, search_query, clear_query } from '../../../lib/redux/actions/queryAction';
 import { set_modal, unset_modal } from '../../../lib/redux/actions/modalAction';
 import View from './View';
@@ -146,9 +146,14 @@ export default function Notebook() {
                                     <a onClick={() => select(val)}>
                                         {val}
                                     </a>
-                                    <span onClick={() => deleteNote(val, notes[val].id)} >
-                                        delete
-                                    </span>
+                                    <div>
+                                        <span onClick={() => dispatch(set_edit_note(val))}>
+                                            edit
+                                        </span>
+                                        <span onClick={() => deleteNote(val, notes[val].id)} >
+                                            delete
+                                        </span>
+                                    </div>
                                 </div>
                             ))
                         }

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 import { set_notebook } from '../../../lib/redux/actions/activeAction';
-import { new_coll, del_coll } from '../../../lib/redux/actions/collectionAction';
+import { new_coll, del_coll, edit_coll } from '../../../lib/redux/actions/collectionAction';
 import { set_modal, set_warning } from '../../../lib/redux/actions/modalAction';
 /*
     COLLECTIONS COMPONENT
@@ -32,6 +32,38 @@ export default function Notebooks() {
                 yes : "Delete",
                 no : "Cancel"
             }))
+    }
+
+    // edit a notebook name
+    const editNotebook = (id, title) => {
+        dispatch(set_modal(
+            "Rename collection",
+            <div className="field">
+                <div className="control">
+                    <input className="input" id="edit-col-title" defaultValue={title} />
+                </div>
+            </div>,
+            () => {
+                let input = document.getElementById("edit-col-title");
+                if (input.value in collection && input.value !== title) {
+                    dispatch(set_warning("That collection already exists. Please use a new name."));
+                    input.value = title
+                    return false;
+                } else if (!input.value.match(/^[0-9a-zA-Z ]+$/)) {
+                    dispatch(set_warning("Please make sure your collection name consists only of letters, numbers and spaces."));
+                    input.value = title
+                    return false;
+                } else {
+                    dispatch(edit_coll(id, input.value, title));
+                    return true;
+                }
+            },
+            false,
+            {
+                yes : "Update",
+                no : "Cancel"
+            }
+        ))
     }
 
     // load modal with form to create modal
@@ -83,8 +115,10 @@ export default function Notebooks() {
                             <Link onClick={() => dispatch(set_notebook(val, collection[val].id))} to={`/collections/${val.replace(/ /g, "-")}/`}>
                                 {val}
                             </Link>
-                            
-                            <p onClick={() => delNotebook(collection[val].id, val)}>delete</p>
+                            <div className={styles.words}>
+                                <p onClick={() => editNotebook(collection[val].id, val)}>edit</p>
+                                <p onClick={() => delNotebook(collection[val].id, val)}>delete</p>
+                            </div>
                         </div>
                     ))
                 }

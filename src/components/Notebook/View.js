@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './Notebook.module.scss';
 import { useDispatch } from 'react-redux';
 
-import { unset_note, edit_note } from '../../../lib/redux/actions/activeAction';
+import { unset_note, set_edit_note } from '../../../lib/redux/actions/activeAction';
 import { edit, close } from '../Utils/Icon';
 
 /*
@@ -28,7 +28,7 @@ export default function View(props) {
             {props.note.notes}
         </div>
         {
-            !props.restricted ? <svg onClick={() => dispatch(edit_note(props.title))} className={styles.edit} viewBox="0 0 8192 8192">
+            !props.restricted ? <svg onClick={() => dispatch(set_edit_note(props.title))} className={styles.edit} viewBox="0 0 8192 8192">
                 {edit}
             </svg> : ""
         }
