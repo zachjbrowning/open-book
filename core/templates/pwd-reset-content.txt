@@ -4,7 +4,7 @@ We've recieved a request to reset your password.
 
 If you didn't do this, please disregard this email.
 
-Otherwise, go to https://openbook-notes.tech/psw-reset/ and copy and paste the reset code below to reset your password.
+Otherwise, go to https://openbook-notes.tech/pwd-reset/ and copy and paste the reset code below to reset your password.
 
     RESET CODE : {{ token }}
 

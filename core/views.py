@@ -259,6 +259,7 @@ class KeywordViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         if request.user.is_authenticated:
+            print(request.data)
             keyword, _ = Keyword.objects.get_or_create(keyword=request.data["keyword"])
             try:
                 note = Note.objects.get(pk=request.data["note"])
@@ -286,7 +287,4 @@ class KeywordViewSet(viewsets.ModelViewSet):
         else:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-    def get_permissions(self):
-        if self.action == "destroy" or self.action == "partial_update" :
-            self.permission_classes = [IsAdminUser]
-        return super(NoteViewSet, self).get_permissions()  
+    

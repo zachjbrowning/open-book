@@ -13,6 +13,7 @@ import Collections from '../Collections/Collections';
 import Notebook from '../Notebook/Notebook';
 import NotFound from '../Utils/NotFound';
 import PwdReset from '../Landing/PwdReset';
+import Redirect from '../Landing/Redirect';
 //const Landing = lazy(() => import('../Landing/Landing'));
 //const Nav = lazy(() => import('../Nav/Nav'));
 //const Collections = lazy(() => import('../Collections/Collections'));
@@ -35,7 +36,7 @@ export default function Wireframe() {
     // Ensure night mode status matches localstate
     useEffect(() => {
         //TODO : only redirect if it's a page that requires login
-        if (!(history.location.pathname.indexOf("uh-oh") != -1 || history.location.pathname.indexOf("pwd-reset/")) && !email) {
+        if (!email && !(history.location.pathname.indexOf("uh-oh") !== -1 || history.location.pathname.indexOf("pwd-reset/") !== -1)) {
             history.push("/", { prev : history.location.pathname})
         }
         let true_night = Night.getNight();
@@ -59,10 +60,14 @@ export default function Wireframe() {
                 <Route path="/pwd-reset/" component={PwdReset} />
                 <Route>
                     <main className={styles.constrict}>
-                        <Route exact path="/collections/" component={Collections} />
-                        <Route exact path="/collections/:book/exam-mode" component={Notebook} />
-                        <Route exact path="/collections/:book/" component={Notebook} />
+                        <Switch>
+                            <Route exact path="/collections/" component={Collections} />
+                            <Route exact path="/collections/:book/exam-mode" component={Notebook} />
+                            <Route exact path="/collections/:book/" component={Notebook} />
+                            <Route component={Redirect} />
+                        </Switch>
                     </main>
+                
                     <Switch>
                         <Route exact path="/collections/:book/exam-mode" component={Nav} />
                         <Route component={Nav} />

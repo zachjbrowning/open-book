@@ -78,7 +78,7 @@ export default function PwdReset() {
                             </div>
                             <div className="field">
                                 <div className="control">
-                                    <input required={true} className="input" placeholder="new password" name="pwd" />
+                                    <input required={true} className="input" placeholder="new password" name="pwd" type="password" />
                                 </div>
                             </div>
                             <div className={`field is-grouped`}>

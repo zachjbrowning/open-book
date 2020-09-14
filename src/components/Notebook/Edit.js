@@ -28,7 +28,6 @@ export default function Edit(props) {
     const addCat = e => {
         e.preventDefault();
         let splits = e.target.elements.keyword.value.toLowerCase().split(' ');
-        console.log(splits);
         let new_word = "";
         for (var word of splits) {
             if (word !== "") {
@@ -42,6 +41,7 @@ export default function Edit(props) {
         if (active.new ) {
             dispatch(new_cat(new_word));
         } else {
+            console.log(collection)
             dispatch(new_cat_collection(
                 active.notebook, 
                 collection[active.notebook].notes[active.note].id,

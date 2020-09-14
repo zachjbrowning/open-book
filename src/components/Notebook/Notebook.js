@@ -68,7 +68,7 @@ export default function Notebook() {
     })
     
     //If we're still waiting for the dispatch to resolve, return nothing
-    if (!collection || Object.keys(collection).length === 0 || !(notebook in collection)) return <></>
+    if (!collection || Object.keys(collection).length === 0 || !(notebook in collection)) return <>oops</>
     
     // Sets up the modal to display a deletion check to delete a note
     function deleteNote(title, id) {
