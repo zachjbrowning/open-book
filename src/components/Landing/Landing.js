@@ -64,9 +64,8 @@ export default function Landing() {
                 dispatch(set_modal(
                     "Hello stranger!!",
                     <p>
-                        {//First time?? Feel free to watch a quick <a>tutorial video</a> to familiarise yourself with the interface.
-                        }
-                        There will be a tutorial video on how to use Openbook coming within the next day, so keep your eyes peeled on the <a href="https://github.com/zachjbrowning/open-book">repo</a> for that!
+                        First time?? Refer to the <a onClick={() => {window.open("/static/user_manual.pdf")}}>user manual</a> to familiarise yourself with the interface.
+                        
                     </p>,
                     () => true,
                     false,

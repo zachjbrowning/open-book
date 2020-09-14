@@ -36,10 +36,10 @@
 
 
 .ohdear {
-    color:var(--text);
+    color:var(--text) !important;
 }
 .color {
-    color : var(--title);
+    color : var(--title) !important;
     white-space : pre-wrap;
 }
 

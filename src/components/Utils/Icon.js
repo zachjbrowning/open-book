@@ -8,6 +8,13 @@ import React from 'react';
     import them where necessary. Leads to much cleaner and flexible code!
     //ALL HAVE VIEWPORT 0 0 8192 8192
 */
+// Three dots icon
+export const dots = <>
+    <circle cx="2048" cy="4096" r="680.9"/>
+    <circle cx="2048" cy="2087.9" r="680.9"/>
+    <circle cx="2048" cy="6104.1" r="680.9"/>
+</>
+
 
 //Pencil icon
 export const edit = <>

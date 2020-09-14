@@ -4,7 +4,7 @@ import { Link, useHistory, Switch, Route, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { set_night } from '../../../lib/redux/actions/nightAction';
-import { close, day, night, auth } from '../Utils/Icon';
+import { close, day, night, dots } from '../Utils/Icon';
 import { set_modal, unset_modal } from '../../../lib/redux/actions/modalAction';
 import { logout } from '../../../lib/redux/actions/authAction';
 import { search_query, update_query } from '../../../lib/redux/actions/queryAction';
@@ -32,6 +32,7 @@ export default function Nav() {
 
     //Load login state to modal
     const do_logout = () => {
+        hide_drop();
         dispatch(set_modal(
             "Logout", 
             "Ready to log out??", 
@@ -50,6 +51,21 @@ export default function Nav() {
         dispatch(search_query(query));
     }
 
+    const open_help = () => {
+        hide_drop();
+        window.open(`/static/user_manual.pdf`)
+    }
+
+    const show_drop = () => {
+        var drop = document.getElementById("dropbox");
+        drop.classList.add(styles.showDrop)
+        drop.focus();
+    }
+
+    const hide_drop = () => {
+        var drop = document.getElementById("dropbox");
+        drop.classList.remove(styles.showDrop)
+    }
 
     return <div className={styles.navBox}>
             <div className={`container ${styles.navFrame}`}>
@@ -96,10 +112,20 @@ export default function Nav() {
                         </div>
                     </Route>
                     <Route>
-                        <div onClick={do_logout} className={styles.auth}>
+                        <div onClick={show_drop} className={styles.auth}>
                             <svg x="0px" y="0px" viewBox="0 0 8192 8192" >
-                                {auth}
+                                {dots}
                             </svg>
+                            <div tabIndex="0" id="dropbox" onBlur={hide_drop} className={styles.dropbox}>
+                                <div className={styles.dropboxHover}>
+                                    <div onClick={open_help} className={styles.op}>
+                                        help
+                                    </div>
+                                    <div onClick={do_logout} className={styles.op}>
+                                        logout
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </Route>
                 </Switch>
