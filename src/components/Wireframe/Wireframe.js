@@ -12,6 +12,7 @@ import Nav from '../Nav/Nav';
 import Collections from '../Collections/Collections';
 import Notebook from '../Notebook/Notebook';
 import NotFound from '../Utils/NotFound';
+import PwdReset from '../Landing/PwdReset';
 //const Landing = lazy(() => import('../Landing/Landing'));
 //const Nav = lazy(() => import('../Nav/Nav'));
 //const Collections = lazy(() => import('../Collections/Collections'));
@@ -34,7 +35,7 @@ export default function Wireframe() {
     // Ensure night mode status matches localstate
     useEffect(() => {
         //TODO : only redirect if it's a page that requires login
-        if (!email) {
+        if (!(history.location.pathname.indexOf("uh-oh") != -1 || history.location.pathname.indexOf("pwd-reset/")) && !email) {
             history.push("/", { prev : history.location.pathname})
         }
         let true_night = Night.getNight();
@@ -55,6 +56,7 @@ export default function Wireframe() {
                         <NotFound />
                     </main>
                 </Route>
+                <Route path="/pwd-reset/" component={PwdReset} />
                 <Route>
                     <main className={styles.constrict}>
                         <Route exact path="/collections/" component={Collections} />

@@ -2,6 +2,12 @@ Hi {{ user.first_name }},
 
 We've recieved a request to reset your password. 
 
-Please follow this URL to start resetting your password. 
+If you didn't do this, please disregard this email.
+
+Otherwise, go to https://openbook-notes.tech/psw-reset/ and copy and paste the reset code below to reset your password.
+
+    RESET CODE : {{ token }}
+
+Happy note taking!!
 
 From the Openbook team.

@@ -35,8 +35,11 @@
                 color:var(--text);
             }
         }
-        input, .alert, .prog {
+        input, .alert, .prog, .brief {
             max-width:20rem;
+        }
+        .brief {
+            padding-bottom:1rem;
         }
     }
 }

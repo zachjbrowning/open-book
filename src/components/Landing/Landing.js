@@ -19,7 +19,7 @@ export default function Landing() {
     const dispatch = useDispatch();
     const email = useSelector(state => state.auth.email);
     const [state, setState] = useState(0);
-    const [alert, setAlert] = useState("haha ayeee");
+    const [alert, setAlert] = useState(false);
     const [loading, setLoading] = useState(false);
     const history = useHistory();
     
@@ -64,7 +64,9 @@ export default function Landing() {
                 dispatch(set_modal(
                     "Hello stranger!!",
                     <p>
-                        First time?? Feel free to watch a quick <a>tutorial video</a> to familiarise yourself with the interface.
+                        {//First time?? Feel free to watch a quick <a>tutorial video</a> to familiarise yourself with the interface.
+                        }
+                        There will be a tutorial video on how to use Openbook coming within the next day, so keep your eyes peeled on the <a href="https://github.com/zachjbrowning/open-book">repo</a> for that!
                     </p>,
                     () => true,
                     false,
@@ -86,7 +88,6 @@ export default function Landing() {
             "Password reset",
             <>
                 Please type your email here to start the reset process.
-                <br/>
                 <div className="field">
                     <div className="control">
                         <input id="email-reset" placeholder="email" className="input"/>
@@ -96,11 +97,37 @@ export default function Landing() {
             () => {
                 let try_email = document.getElementById("email-reset").value
                 if (try_email) {
+                    dispatch(set_modal(
+                        "Trying to reset...",
+                        <div className="control">
+                            <progress className="progress is-small is-primary" max="100">50</progress>
+                        </div>,
+                        () => true,
+                        false,
+                        {
+                            yes : false,
+                            no : false,
+
+                        }
+                    ))
                     PwdAPI.request(try_email)
                     .then(() => {
                         dispatch(set_modal(
                             "Password reset",
-                            "If your email address was valid, you will recieve an email. Please check your spam folder.",
+                            "If your email address was valid, you will recieve an email with instructions. Please check your spam folder.",
+                            () => true,
+                            false,
+                            {
+                                yes : "Ok",
+                                no : false,
+                            }
+
+                        ));
+                    })
+                    .catch(() => {
+                        dispatch(set_modal(
+                            "Password reset",
+                            "If your email address was valid, you will recieve an email with instructions. Please check your spam folder.",
                             () => true,
                             false,
                             {

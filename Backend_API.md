@@ -31,6 +31,15 @@ With the backend being aided by the django rest framework, a lot of routes are a
     - / : GET
         - params : 
         - returns : dict of account info the fills the auth redux state component
+    - /pwd-reset/ : PUT
+        - params : email
+        - returns : 
+    - /pwd-reset/ : POST
+        - params : token, pwd
+        - returns : {success : bool}
+    - /token-check/ : PUT
+        - params : token
+        - returns : {success : bool}
 - /api/collection/
     - / : POST
         - params : title

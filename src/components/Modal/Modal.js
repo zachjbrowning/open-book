@@ -53,9 +53,14 @@ export default function Modal() {
             modal.content ? modal.content : ""
         }
         <div className={`field is-grouped ${styles.lower}`}>
-            <div className="control">
-                <button onClick={sendIt} className="button is-primary">{modal.buttons?.yes ? modal.buttons.yes : "Ok"}</button>
-            </div>
+            {
+                modal.buttons?.yes !== false ? 
+                <div className="control">
+                    <button onClick={sendIt} className="button is-primary">{modal.buttons?.yes ? modal.buttons.yes : "Ok"}</button>
+                </div>
+                : ""
+            }
+            
             {
                 !modal.buttons || modal.buttons?.no ? 
                 <div className="control">
