@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { unset_note, new_cat, del_cat } from '../../../lib/redux/actions/activeAction';
 import { close } from '../Utils/Icon';
 import { new_note, edit_note, new_cat_collection, del_cat_collection, del_note } from '../../../lib/redux/actions/collectionAction';
-
+import { set_modal } from '../../../lib/redux/actions/modalAction';
 /*
     EDIT COMPONENT
     Used to create and edit notes within a collection. 
@@ -66,6 +66,28 @@ export default function Edit(props) {
                 active.note, 
                 key));
         }
+    }
+
+
+    /*
+        Sets up modal to delete note
+    */
+   function deleteNote() {
+        console.log("BRUHHHH")
+        dispatch(set_modal(
+            "Are you sure?", 
+            "Are you sure you want to delete this note? This action cannot be reverted.",
+            () => {
+                dispatch(unset_note())
+                .then(dispatch(del_note(active.notebook, collection[active.notebook].notes[active.note].id, active.note)));
+                return true;
+            }, 
+            false,
+            {
+                yes : "Delete",
+                no : "Cancel",
+            }
+        ))
     }
 
     /*
@@ -169,7 +191,7 @@ export default function Edit(props) {
             {
                 active.edit && active.note ?
                 <div className="control">
-                    <button className="button is-primary is-light" >Delete</button>
+                    <button onClick={deleteNote} className="button is-primary is-light" >Delete</button>
                 </div>
                 : ""
             }
