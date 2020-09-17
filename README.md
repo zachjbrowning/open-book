@@ -32,6 +32,15 @@ On top of this, to get everything running smoothly I used:
 
 Additional information on the [backend and api](Backend_API.md) and [frontend](Frontend.md) can be found in the supporting documentation.
 
+## Running it locally
+Given I had all the dependencies installed, you may need install a few python libraries like django (sorry, didn't bother with a virtualenv cause I personally didn't need it) You will also have to `npm install` all the react dependancies. Otherwise, you can easily serve the site in dev mode like follows:
+- Comment out the STATIC_ROOT at bottom of /api/settings.py
+- Make sure public path is '/' in webpack.config.js
+- Set debug to TRUE in /api/settings.py
+- Set up your own secret key (currently it is set to load in from a secret.py file that is not included in the repo for obvious reasons)
+- Run `python3 manage.py runserver` in one terminal
+- Run `npm run dev` in another
+
 ## Serving up the project
 Given this project is being run off a VPS, a few small steps need to be taken to switch from dev to production:
  - Uncomment the STATIC_ROOT at the bottom of /api/settings.py
